@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: mern-ecommerce-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run dev
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        scope: run
+      - key: JWT_SECRET
+        scope: run
+      - key: STRIPE_SECRET_KEY
+        scope: run
+      - key: STRIPE_PUBLISHABLE_KEY
+        scope: run
+      - key: FRONTEND_URL
+        value: https://your-frontend-domain.vercel.app
+      - key: CLOUDINARY_NAME
+        scope: run
+      - key: CLOUDINARY_API_KEY
+        scope: run
+      - key: CLOUDINARY_API_SECRET
+        scope: run
+      - key: ADMIN_EMAIL
+        value: admin@example.com
+      - key: ADMIN_PASSWORD
+        scope: run
