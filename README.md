@@ -1,4 +1,4 @@
-# MERN E-Commerce Project
+# Eshop Project
 
 A complete, production-ready MERN (MongoDB, Express, React, Node.js) stack e-commerce application with modern architecture and best practices.
 
@@ -83,7 +83,7 @@ A complete, production-ready MERN (MongoDB, Express, React, Node.js) stack e-com
 ## 📁 Project Structure
 
 ```
-MERN-Ecommerce/
+Eshop/
 ├── backend/
 │   ├── config/
 │   │   ├── database.js
