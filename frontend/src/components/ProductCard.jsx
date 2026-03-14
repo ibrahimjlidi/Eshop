@@ -6,12 +6,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCart, Heart, Star } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCartSuccess } from '../features/cartSlice';
 import { toast } from 'react-toastify';
+import { authAPI } from '../services/authAPI';
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
+  const { user, isAuthenticated } = useSelector(state => state.auth);
+  const [isWishlisted, setIsWishlisted] = React.useState(
+    user?.wishlist?.includes(product._id) || false
+  );
+
   const discountPercent = product.discountPrice
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : 0;
@@ -27,7 +33,23 @@ const ProductCard = ({ product }) => {
         image: product.images[0]?.url,
       })
     );
-    toast.success('Product added to cart!');
+    toast.success('Produit ajouté au panier !');
+  };
+
+  const handleWishlist = async (e) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      toast.info('Veuillez vous connecter pour utiliser la liste de souhaits');
+      return;
+    }
+
+    try {
+      const response = await authAPI.toggleWishlist(product._id);
+      setIsWishlisted(!isWishlisted);
+      toast.success(response.message);
+    } catch (err) {
+      toast.error('Échec de la mise à jour de la liste de souhaits');
+    }
   };
 
   return (
@@ -46,13 +68,13 @@ const ProductCard = ({ product }) => {
             </div>
           )}
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              // TODO: Add to wishlist functionality
-            }}
+            onClick={handleWishlist}
             className="absolute top-3 left-3 bg-white p-2 rounded-full shadow hover:bg-gray-100 transition"
           >
-            <Heart size={20} className="text-gray-400 hover:text-red-500" />
+            <Heart
+              size={20}
+              className={isWishlisted ? "text-red-500 fill-red-500" : "text-gray-400 hover:text-red-500"}
+            />
           </button>
         </div>
 
@@ -91,9 +113,9 @@ const ProductCard = ({ product }) => {
           {/* Stock Status */}
           <div className="mb-3">
             {product.stock > 0 ? (
-              <span className="text-xs text-green-600 font-semibold">In Stock</span>
+              <span className="text-xs text-green-600 font-semibold">En Stock</span>
             ) : (
-              <span className="text-xs text-red-600 font-semibold">Out of Stock</span>
+              <span className="text-xs text-red-600 font-semibold">Rupture de Stock</span>
             )}
           </div>
 
@@ -104,7 +126,7 @@ const ProductCard = ({ product }) => {
             className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary/90 transition disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
             <ShoppingCart size={18} />
-            <span>{product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}</span>
+            <span>{product.stock > 0 ? 'Ajouter au panier' : 'Rupture de Stock'}</span>
           </button>
         </div>
       </div>

@@ -22,13 +22,13 @@ const CartPage = () => {
       <MainLayout>
         <div className="max-w-7xl mx-auto px-4 py-12 text-center">
           <ShoppingCart className="mx-auto text-gray-400 mb-4" size={48} />
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Your cart is empty</h2>
-          <p className="text-gray-600 mb-8">Add some products to get started!</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Votre panier est vide</h2>
+          <p className="text-gray-600 mb-8">Ajoutez des produits pour commencer !</p>
           <Link
             to="/products"
             className="inline-flex items-center space-x-2 bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary/90"
           >
-            <span>Continue Shopping</span>
+            <span>Continuer vos achats</span>
             <ArrowRight size={20} />
           </Link>
         </div>
@@ -39,7 +39,7 @@ const CartPage = () => {
   return (
     <MainLayout>
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8">Shopping Cart</h1>
+        <h1 className="text-4xl font-bold mb-8">Mon Panier</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
@@ -59,7 +59,7 @@ const CartPage = () => {
                     />
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-800 mb-1">{item.productName}</h3>
-                      <p className="text-gray-600 text-sm mb-2">Price: ${item.price.toFixed(2)}</p>
+                      <p className="text-gray-600 text-sm mb-2">Prix: {item.price.toFixed(2)} DT</p>
                     </div>
                   </div>
 
@@ -99,7 +99,7 @@ const CartPage = () => {
                   {/* Subtotal */}
                   <div className="text-right mr-6 w-20">
                     <p className="font-semibold text-gray-800">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {(item.price * item.quantity).toFixed(2)} DT
                     </p>
                   </div>
 
@@ -120,39 +120,39 @@ const CartPage = () => {
                 onClick={() => dispatch(clearCart())}
                 className="text-red-500 hover:text-red-700 font-semibold"
               >
-                Clear Cart
+                Vider le panier
               </button>
             </div>
           </div>
 
           {/* Order Summary */}
           <div className="bg-white rounded-lg shadow-md p-6 h-fit">
-            <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
+            <h2 className="text-2xl font-bold mb-6">Résumé de la commande</h2>
 
             <div className="space-y-4 mb-6">
               <div className="flex justify-between text-gray-700">
-                <span>Subtotal ({totalItems} items)</span>
-                <span>${totalPrice.toFixed(2)}</span>
+                <span>Sous-total ({totalItems} articles)</span>
+                <span>{totalPrice.toFixed(2)} DT</span>
               </div>
               <div className="flex justify-between text-gray-700">
-                <span>Shipping</span>
+                <span>Livraison</span>
                 <span className={shippingCost === 0 ? 'text-green-600 font-semibold' : ''}>
-                  {shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`}
+                  {shippingCost === 0 ? 'GRATUIT' : `${shippingCost.toFixed(2)} DT`}
                 </span>
               </div>
               <div className="flex justify-between text-gray-700">
-                <span>Tax (10%)</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>TVA (10%)</span>
+                <span>{tax.toFixed(2)} DT</span>
               </div>
               {shippingCost === 0 && (
-                <p className="text-xs text-green-600">Free shipping on orders over $100!</p>
+                <p className="text-xs text-green-600">Livraison gratuite pour les commandes de plus de 100 DT !</p>
               )}
             </div>
 
             <div className="border-t border-gray-200 pt-4 mb-6">
               <div className="flex justify-between text-lg font-bold text-gray-800">
                 <span>Total</span>
-                <span>${finalTotal.toFixed(2)}</span>
+                <span>{finalTotal.toFixed(2)} DT</span>
               </div>
             </div>
 
@@ -160,7 +160,7 @@ const CartPage = () => {
               to="/checkout"
               className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition flex items-center justify-center space-x-2 mb-3"
             >
-              <span>Proceed to Checkout</span>
+              <span>Passer à la caisse</span>
               <ArrowRight size={20} />
             </Link>
 
@@ -168,7 +168,7 @@ const CartPage = () => {
               to="/products"
               className="w-full text-center border border-primary text-primary py-3 rounded-lg font-semibold hover:bg-primary/5 transition"
             >
-              Continue Shopping
+              Continuer vos achats
             </Link>
           </div>
         </div>

@@ -20,11 +20,11 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
 
   const menuItems = [
-    { label: 'Dashboard', href: '/admin/dashboard', icon: BarChart3 },
-    { label: 'Products', href: '/admin/products', icon: Package },
-    { label: 'Orders', href: '/admin/orders', icon: ShoppingCart },
-    { label: 'Users', href: '/admin/users', icon: Users },
-    { label: 'Settings', href: '/admin/settings', icon: Settings },
+    { label: 'Tableau de Bord', href: '/admin/dashboard', icon: BarChart3 },
+    { label: 'Produits', href: '/admin/products', icon: Package },
+    { label: 'Commandes', href: '/admin/orders', icon: ShoppingCart },
+    { label: 'Utilisateurs', href: '/admin/users', icon: Users },
+    { label: 'Paramètres', href: '/admin/settings', icon: Settings },
   ];
 
   const isActive = (href) => location.pathname === href;
@@ -41,9 +41,8 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static left-0 top-0 h-screen w-64 bg-gray-900 text-white transition-transform duration-300 z-40 md:z-auto ${
-          isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-        }`}
+        className={`fixed md:static left-0 top-0 h-screen w-64 bg-gray-900 text-white transition-transform duration-300 z-40 md:z-auto ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+          }`}
       >
         <div className="p-6 border-b border-gray-800">
           <div className="flex items-center justify-between">
@@ -65,11 +64,10 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
                 key={item.href}
                 to={item.href}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition ${
-                  isActive(item.href)
+                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition ${isActive(item.href)
                     ? 'bg-primary text-white'
                     : 'text-gray-400 hover:text-white hover:bg-gray-800'
-                }`}
+                  }`}
               >
                 <Icon size={20} />
                 <span>{item.label}</span>
@@ -81,7 +79,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
         <div className="absolute bottom-6 left-6 right-6">
           <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500/20 transition">
             <LogOut size={20} />
-            <span>Logout</span>
+            <span>Déconnexion</span>
           </button>
         </div>
       </aside>

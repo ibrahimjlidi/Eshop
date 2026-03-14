@@ -8,6 +8,7 @@ import Product from '../models/Product.js';
 import Cart from '../models/Cart.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { createCheckoutSession, getCheckoutSession } from '../utils/stripe.js';
+import sendEmail from '../utils/emailService.js';
 
 // Create Order
 export const createOrder = asyncHandler(async (req, res) => {
@@ -27,7 +28,7 @@ export const createOrder = asyncHandler(async (req, res) => {
 
   for (const item of items) {
     const product = await Product.findById(item.productId);
-    
+
     if (!product) {
       throw new AppError(`Product not found: ${item.productId}`, 404);
     }
@@ -211,12 +212,35 @@ export const verifyPayment = asyncHandler(async (req, res) => {
   const session = await getCheckoutSession(sessionId);
 
   if (session.payment_status === 'paid') {
-    const order = await Order.findOne({ stripeSessionId: sessionId });
+    const order = await Order.findOne({ stripeSessionId: sessionId }).populate('userId', 'email firstName');
     if (order) {
       order.paymentStatus = 'paid';
       order.orderStatus = 'processing';
       order.updateOrderStatus('processing', 'Payment received');
       await order.save();
+
+      // Send Order Confirmation Email
+      const emailOptions = {
+        email: order.userId.email,
+        subject: `Order Confirmation - #${order._id.toString().slice(-6).toUpperCase()}`,
+        html: `
+          <h1>Merci pour votre commande !</h1>
+          <p>Bonjour ${order.userId.firstName},</p>
+          <p>Votre paiement a été vérifié et votre commande est en cours de traitement.</p>
+          <p><strong>Numéro de commande :</strong> #${order._id}</p>
+          <p><strong>Total :</strong> ${order.totalPrice.toFixed(2)} DT</p>
+          <p>Nous vous informerons dès que votre commande sera expédiée.</p>
+          <br/>
+          <p>L'équipe MERN-Ecommerce</p>
+        `,
+      };
+
+      try {
+        await sendEmail(emailOptions);
+      } catch (err) {
+        console.error('Email failed to send:', err);
+        // Don't throw error to avoid breaking the payment verification flow
+      }
     }
 
     res.status(200).json({

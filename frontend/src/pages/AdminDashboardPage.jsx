@@ -22,7 +22,7 @@ const AdminDashboardPage = () => {
         const data = await adminAPI.getDashboardStats();
         dispatch(getDashboardStatsSuccess(data.stats));
       } catch (error) {
-        const errorMessage = error.response?.data?.message || 'Failed to fetch stats';
+        const errorMessage = error.response?.data?.message || 'Échec de la récupération des statistiques';
         dispatch(setError(errorMessage));
       }
     };
@@ -36,26 +36,26 @@ const AdminDashboardPage = () => {
 
   const dashboardCards = [
     {
-      title: 'Total Users',
+      title: 'Total Utilisateurs',
       value: stats.totalUsers,
       icon: Users,
       color: 'bg-blue-500',
     },
     {
-      title: 'Total Products',
+      title: 'Total Produits',
       value: stats.totalProducts,
       icon: Package,
       color: 'bg-green-500',
     },
     {
-      title: 'Total Orders',
+      title: 'Total Commandes',
       value: stats.totalOrders,
       icon: ShoppingCart,
       color: 'bg-purple-500',
     },
     {
-      title: 'Total Revenue',
-      value: `$${stats.totalRevenue?.toFixed(2) || '0.00'}`,
+      title: 'Revenu Total',
+      value: `${stats.totalRevenue?.toFixed(2) || '0.00'} DT`,
       icon: TrendingUp,
       color: 'bg-orange-500',
     },
@@ -64,7 +64,7 @@ const AdminDashboardPage = () => {
   return (
     <AdminLayout>
       <div>
-        <h1 className="text-4xl font-bold mb-8">Dashboard</h1>
+        <h1 className="text-4xl font-bold mb-8">Tableau de Bord</h1>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -90,7 +90,7 @@ const AdminDashboardPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Orders by Status */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-4">Orders by Status</h2>
+            <h2 className="text-xl font-bold mb-4">Commandes par Statut</h2>
             <div className="space-y-3">
               {stats.ordersByStatus?.map((item, index) => (
                 <div key={index} className="flex items-center justify-between">
@@ -115,7 +115,7 @@ const AdminDashboardPage = () => {
 
           {/* Revenue by Month */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-4">Revenue by Month</h2>
+            <h2 className="text-xl font-bold mb-4">Revenu par Mois</h2>
             <div className="space-y-3">
               {stats.revenueByMonth?.slice(-6).reverse().map((item, index) => (
                 <div key={index} className="flex items-center justify-between">
@@ -138,7 +138,7 @@ const AdminDashboardPage = () => {
                       ></div>
                     </div>
                     <span className="font-semibold text-gray-800 w-20 text-right">
-                      ${item.revenue.toFixed(2)}
+                      {item.revenue.toFixed(2)} DT
                     </span>
                   </div>
                 </div>
@@ -149,15 +149,15 @@ const AdminDashboardPage = () => {
 
         {/* Recent Orders */}
         <div className="bg-white rounded-lg shadow-md p-6 mt-8">
-          <h2 className="text-xl font-bold mb-4">Recent Orders</h2>
+          <h2 className="text-xl font-bold mb-4">Commandes Récentes</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="border-b border-gray-200">
                 <tr>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Order ID</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Customer</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Amount</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">ID Commande</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Client</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Montant</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Statut</th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Date</th>
                 </tr>
               </thead>
@@ -169,15 +169,14 @@ const AdminDashboardPage = () => {
                       {order.userId?.firstName} {order.userId?.lastName}
                     </td>
                     <td className="py-3 px-4 text-gray-800 font-semibold">
-                      ${order.totalPrice?.toFixed(2)}
+                      {order.totalPrice?.toFixed(2)} DT
                     </td>
                     <td className="py-3 px-4">
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          order.orderStatus === 'delivered'
+                        className={`px-3 py-1 rounded-full text-xs font-semibold ${order.orderStatus === 'delivered'
                             ? 'bg-green-100 text-green-800'
                             : 'bg-yellow-100 text-yellow-800'
-                        }`}
+                          }`}
                       >
                         {order.orderStatus}
                       </span>

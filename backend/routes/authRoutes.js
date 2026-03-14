@@ -13,6 +13,8 @@ import {
   updateUserProfile,
   updatePassword,
   updateAddress,
+  getWishlist,
+  toggleWishlist,
 } from '../controllers/authController.js';
 
 const router = express.Router();
@@ -27,5 +29,9 @@ router.post('/logout', authenticate, logoutUser);
 router.put('/profile', authenticate, updateUserProfile);
 router.put('/password', authenticate, updatePassword);
 router.put('/address', authenticate, updateAddress);
+
+// Wishlist routes
+router.get('/wishlist', authenticate, getWishlist);
+router.post('/wishlist/toggle', authenticate, toggleWishlist);
 
 export default router;

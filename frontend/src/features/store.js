@@ -9,6 +9,7 @@ import productReducer from './productSlice';
 import cartReducer from './cartSlice';
 import orderReducer from './orderSlice';
 import adminReducer from './adminSlice';
+import settingsReducer from './settingsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     cart: cartReducer,
     orders: orderReducer,
     admin: adminReducer,
+    settings: settingsReducer,
   },
 });
 

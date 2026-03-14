@@ -89,6 +89,13 @@ const userSchema = new mongoose.Schema(
         default: true,
       },
     },
+    // Wishlist
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+      },
+    ],
   },
   {
     timestamps: true,
@@ -96,7 +103,7 @@ const userSchema = new mongoose.Schema(
 );
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   try {
@@ -108,17 +115,17 @@ userSchema.pre('save', async function(next) {
 });
 
 // Method to compare password
-userSchema.methods.comparePassword = async function(password) {
+userSchema.methods.comparePassword = async function (password) {
   return comparePassword(password, this.password);
 };
 
 // Get full name
-userSchema.methods.getFullName = function() {
+userSchema.methods.getFullName = function () {
   return `${this.firstName} ${this.lastName}`;
 };
 
 // Hide sensitive data
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
   return user;

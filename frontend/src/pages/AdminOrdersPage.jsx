@@ -19,7 +19,7 @@ const AdminOrdersPage = () => {
             setTotalPages(data.totalPages || 1);
             setCurrentPage(data.currentPage || 1);
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to fetch orders');
+            toast.error(error.response?.data?.message || 'Échec de la récupération des commandes');
         } finally {
             setIsLoading(false);
         }
@@ -48,7 +48,7 @@ const AdminOrdersPage = () => {
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-800 flex items-center space-x-2">
                     <ShoppingCart className="text-primary" />
-                    <span>Orders Management</span>
+                    <span>Gestion des Commandes</span>
                 </h1>
             </div>
 
@@ -57,11 +57,11 @@ const AdminOrdersPage = () => {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-gray-50 border-b border-gray-200">
-                                <th className="p-4 font-semibold text-gray-600">Order ID</th>
-                                <th className="p-4 font-semibold text-gray-600">Customer</th>
+                                <th className="p-4 font-semibold text-gray-600">ID Commande</th>
+                                <th className="p-4 font-semibold text-gray-600">Client</th>
                                 <th className="p-4 font-semibold text-gray-600">Date</th>
                                 <th className="p-4 font-semibold text-gray-600">Total</th>
-                                <th className="p-4 font-semibold text-gray-600">Status</th>
+                                <th className="p-4 font-semibold text-gray-600">Statut</th>
                                 <th className="p-4 font-semibold text-gray-600 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -76,21 +76,21 @@ const AdminOrdersPage = () => {
                                     <td className="p-4 text-gray-600">
                                         {new Date(order.createdAt).toLocaleDateString()}
                                     </td>
-                                    <td className="p-4 font-bold text-gray-800">${order.totalPrice?.toFixed(2)}</td>
+                                    <td className="p-4 font-bold text-gray-800">{order.totalPrice?.toFixed(2)} DT</td>
                                     <td className="p-4">
                                         <span className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${getStatusColor(order.orderStatus)}`}>
                                             {order.orderStatus}
                                         </span>
                                     </td>
                                     <td className="p-4 text-right">
-                                        <button className="p-2 text-primary hover:bg-primary/10 rounded transition" title="View Details">
+                                        <button className="p-2 text-primary hover:bg-primary/10 rounded transition" title="Voir les détails">
                                             <Eye size={18} />
                                         </button>
                                     </td>
                                 </tr>
                             )) : (
                                 <tr>
-                                    <td colSpan="6" className="p-8 text-center text-gray-500">No orders found.</td>
+                                    <td colSpan="6" className="p-8 text-center text-gray-500">Aucune commande trouvée.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -105,15 +105,15 @@ const AdminOrdersPage = () => {
                             onClick={() => setCurrentPage(p => p - 1)}
                             className="px-3 py-1 border rounded disabled:opacity-50"
                         >
-                            Prev
+                            Précédent
                         </button>
-                        <span className="px-3 py-1">Page {currentPage} of {totalPages}</span>
+                        <span className="px-3 py-1">Page {currentPage} sur {totalPages}</span>
                         <button
                             disabled={currentPage === totalPages}
                             onClick={() => setCurrentPage(p => p + 1)}
                             className="px-3 py-1 border rounded disabled:opacity-50"
                         >
-                            Next
+                            Suivant
                         </button>
                     </div>
                 )}

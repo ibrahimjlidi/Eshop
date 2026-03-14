@@ -13,38 +13,34 @@ export class AppError extends Error {
 
 // Error handling middleware
 export const errorHandler = (err, req, res, next) => {
-  err.statusCode = err.statusCode || 500;
-  err.message = err.message || 'Internal Server Error';
+  let error = typeof err === 'string' ? { message: err } : { ...err };
+  error.message = err.message || err;
 
-  // Mongoose duplicate key error
-  if (err.code === 11000) {
-    const field = Object.keys(err.keyValue)[0];
-    err.message = `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
-    err.statusCode = 400;
-  }
-
-  // JWT errors
-  if (err.name === 'JsonWebTokenError') {
-    err.message = 'Invalid token';
-    err.statusCode = 401;
-  }
-
-  if (err.name === 'TokenExpiredError') {
-    err.message = 'Token expired';
-    err.statusCode = 401;
-  }
+  // Log error for development
+  console.error('Error:', err);
 
   // Mongoose validation error
   if (err.name === 'ValidationError') {
-    const message = Object.values(err.errors).map(val => val.message).join(', ');
-    err.message = message;
-    err.statusCode = 400;
+    error.message = Object.values(err.errors).map(val => val.message);
+    error.statusCode = 400;
   }
 
-  res.status(err.statusCode).json({
+  // Mongoose duplicate key error
+  if (err.code === 11000) {
+    error.message = 'Duplicate field value entered';
+    error.statusCode = 400;
+  }
+
+  // Mongoose cast error
+  if (err.name === 'CastError') {
+    error.message = `Resource not found with id of ${err.value}`;
+    error.statusCode = 404;
+  }
+
+  res.status(error.statusCode || 500).json({
     success: false,
-    message: err.message,
-    ...(process.env.NODE_ENV === 'development' && { error: err })
+    message: error.message || 'Server Error',
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
   });
 };
 

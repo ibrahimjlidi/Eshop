@@ -34,12 +34,14 @@ export const productAPI = {
   },
 
   // Create product (admin)
+  // Supports JSON or FormData (for images)
   createProduct: async (productData) => {
     const response = await apiClient.post('/products', productData);
     return response.data;
   },
 
   // Update product (admin)
+  // Supports JSON or FormData (for images)
   updateProduct: async (productId, productData) => {
     const response = await apiClient.put(`/products/${productId}`, productData);
     return response.data;

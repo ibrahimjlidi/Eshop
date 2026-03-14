@@ -19,7 +19,7 @@ const AdminUsersPage = () => {
             setTotalPages(data.totalPages || 1);
             setCurrentPage(data.currentPage || 1);
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to fetch users');
+            toast.error(error.response?.data?.message || 'Échec de la récupération des utilisateurs');
         } finally {
             setIsLoading(false);
         }
@@ -30,13 +30,13 @@ const AdminUsersPage = () => {
     }, [currentPage]);
 
     const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this user?")) {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
             try {
                 await adminAPI.deleteUser(id);
-                toast.success("User deleted successfully");
+                toast.success("Utilisateur supprimé avec succès");
                 fetchUsers(currentPage);
             } catch (error) {
-                toast.error(error.response?.data?.message || 'Failed to delete user');
+                toast.error(error.response?.data?.message || "Échec de la suppression de l'utilisateur");
             }
         }
     };
@@ -45,10 +45,10 @@ const AdminUsersPage = () => {
         const newRole = currentRole === 'admin' ? 'user' : 'admin';
         try {
             await adminAPI.updateUserRole(userId, newRole);
-            toast.success(`User role updated to ${newRole}`);
+            toast.success(`Rôle de l'utilisateur mis à jour en ${newRole}`);
             fetchUsers(currentPage);
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to update user role');
+            toast.error(error.response?.data?.message || "Échec de la mise à jour du rôle de l'utilisateur");
         }
     };
 
@@ -61,7 +61,7 @@ const AdminUsersPage = () => {
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-800 flex items-center space-x-2">
                     <Users className="text-primary" />
-                    <span>User Management</span>
+                    <span>Gestion des Utilisateurs</span>
                 </h1>
             </div>
 
@@ -70,10 +70,10 @@ const AdminUsersPage = () => {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-gray-50 border-b border-gray-200">
-                                <th className="p-4 font-semibold text-gray-600">User</th>
+                                <th className="p-4 font-semibold text-gray-600">Utilisateur</th>
                                 <th className="p-4 font-semibold text-gray-600">Email</th>
-                                <th className="p-4 font-semibold text-gray-600">Role</th>
-                                <th className="p-4 font-semibold text-gray-600">Joined</th>
+                                <th className="p-4 font-semibold text-gray-600">Rôle</th>
+                                <th className="p-4 font-semibold text-gray-600">Inscrit le</th>
                                 <th className="p-4 font-semibold text-gray-600 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -102,14 +102,14 @@ const AdminUsersPage = () => {
                                             <button
                                                 onClick={() => handleRoleToggle(u._id, u.role)}
                                                 className="p-2 text-indigo-600 hover:bg-indigo-50 rounded transition"
-                                                title="Toggle Admin Rights"
+                                                title="Basculer les droits d'administrateur"
                                             >
                                                 <Shield size={18} />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(u._id)}
                                                 className="p-2 text-red-600 hover:bg-red-50 rounded transition"
-                                                title="Delete User"
+                                                title="Supprimer l'utilisateur"
                                             >
                                                 <Trash2 size={18} />
                                             </button>
@@ -118,7 +118,7 @@ const AdminUsersPage = () => {
                                 </tr>
                             )) : (
                                 <tr>
-                                    <td colSpan="5" className="p-8 text-center text-gray-500">No users found.</td>
+                                    <td colSpan="5" className="p-8 text-center text-gray-500">Aucun utilisateur trouvé.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -133,15 +133,15 @@ const AdminUsersPage = () => {
                             onClick={() => setCurrentPage(p => p - 1)}
                             className="px-3 py-1 border rounded disabled:opacity-50"
                         >
-                            Prev
+                            Précèdent
                         </button>
-                        <span className="px-3 py-1">Page {currentPage} of {totalPages}</span>
+                        <span className="px-3 py-1">Page {currentPage} sur {totalPages}</span>
                         <button
                             disabled={currentPage === totalPages}
                             onClick={() => setCurrentPage(p => p + 1)}
                             className="px-3 py-1 border rounded disabled:opacity-50"
                         >
-                            Next
+                            Suivant
                         </button>
                     </div>
                 )}

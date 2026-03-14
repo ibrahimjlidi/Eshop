@@ -190,3 +190,35 @@ export const updateAddress = asyncHandler(async (req, res) => {
     user,
   });
 });
+
+// Toggle Wishlist (Add/Remove)
+export const toggleWishlist = asyncHandler(async (req, res) => {
+  const { productId } = req.body;
+  const user = await User.findById(req.user.id);
+
+  const isInWishlist = user.wishlist.includes(productId);
+
+  if (isInWishlist) {
+    user.wishlist = user.wishlist.filter(id => id.toString() !== productId);
+  } else {
+    user.wishlist.push(productId);
+  }
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: isInWishlist ? 'Removed from wishlist' : 'Added to wishlist',
+    wishlist: user.wishlist,
+  });
+});
+
+// Get Wishlist Products
+export const getWishlist = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id).populate('wishlist');
+
+  res.status(200).json({
+    success: true,
+    wishlist: user.wishlist,
+  });
+});

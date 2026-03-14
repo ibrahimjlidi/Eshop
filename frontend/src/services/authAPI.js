@@ -53,4 +53,15 @@ export const authAPI = {
     const response = await apiClient.put('/auth/address', addressData);
     return response.data;
   },
+
+  // Wishlist
+  toggleWishlist: async (productId) => {
+    const response = await apiClient.post('/auth/wishlist/toggle', { productId });
+    return response.data;
+  },
+
+  getWishlist: async () => {
+    const response = await apiClient.get('/auth/wishlist');
+    return response.data;
+  },
 };

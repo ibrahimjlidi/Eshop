@@ -5,6 +5,7 @@
 
 import Product from '../models/Product.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
+import { uploadToCloudinary } from '../middleware/uploadMiddleware.js';
 
 // Get All Products with pagination, search, and filter
 export const getAllProducts = asyncHandler(async (req, res) => {
@@ -83,10 +84,32 @@ export const getFeaturedProducts = asyncHandler(async (req, res) => {
 
 // Create Product (Admin Only)
 export const createProduct = asyncHandler(async (req, res) => {
-  const { name, description, category, price, discountPrice, stock, images, attributes } = req.body;
+  const { name, description, category, price, discountPrice, stock, attributes } = req.body;
 
   if (!name || !description || !category || !price) {
     throw new AppError('Please provide all required fields', 400);
+  }
+
+  // Handle image uploads
+  let imageUrls = [];
+  if (req.files && req.files.length > 0) {
+    const isCloudinaryConfigured = !!(process.env.CLOUDINARY_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+
+    if (isCloudinaryConfigured) {
+      const uploadPromises = req.files.map(file => uploadToCloudinary(file.buffer));
+      const results = await Promise.all(uploadPromises);
+      imageUrls = results.map(result => ({
+        url: result.secure_url,
+        publicId: result.public_id
+      }));
+    } else {
+      // Local storage fallback
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      imageUrls = req.files.map(file => ({
+        url: `${baseUrl}/uploads/${file.filename}`,
+        publicId: file.filename // Use filename as publicId for consistency
+      }));
+    }
   }
 
   const product = await Product.create({
@@ -96,7 +119,7 @@ export const createProduct = asyncHandler(async (req, res) => {
     price,
     discountPrice,
     stock,
-    images,
+    images: imageUrls,
     attributes,
     createdBy: req.user.id,
   });
@@ -114,6 +137,30 @@ export const updateProduct = asyncHandler(async (req, res) => {
 
   if (!product) {
     throw new AppError('Product not found', 404);
+  }
+
+  // Handle image uploads if new ones are provided
+  if (req.files && req.files.length > 0) {
+    const isCloudinaryConfigured = !!(process.env.CLOUDINARY_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+
+    if (isCloudinaryConfigured) {
+      // Optional: Delete old images from Cloudinary here if desired
+      const uploadPromises = req.files.map(file => uploadToCloudinary(file.buffer));
+      const results = await Promise.all(uploadPromises);
+      const newImages = results.map(result => ({
+        url: result.secure_url,
+        publicId: result.public_id
+      }));
+      req.body.images = newImages;
+    } else {
+      // Local storage fallback
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const newImages = req.files.map(file => ({
+        url: `${baseUrl}/uploads/${file.filename}`,
+        publicId: file.filename
+      }));
+      req.body.images = newImages;
+    }
   }
 
   // Update fields

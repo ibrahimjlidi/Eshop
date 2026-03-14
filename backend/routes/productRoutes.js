@@ -5,6 +5,7 @@
 
 import express from 'express';
 import { authenticate, authorize } from '../middleware/auth.js';
+import upload from '../middleware/uploadMiddleware.js';
 import {
   getAllProducts,
   getProductById,
@@ -28,8 +29,8 @@ router.get('/:id/reviews', getProductReviews);
 router.post('/:id/reviews', authenticate, addProductReview);
 
 // Protected routes (admin only)
-router.post('/', authenticate, authorize(['admin']), createProduct);
-router.put('/:id', authenticate, authorize(['admin']), updateProduct);
+router.post('/', authenticate, authorize(['admin']), upload.array('images', 5), createProduct);
+router.put('/:id', authenticate, authorize(['admin']), upload.array('images', 5), updateProduct);
 router.delete('/:id', authenticate, authorize(['admin']), deleteProduct);
 
 export default router;

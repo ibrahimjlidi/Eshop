@@ -68,7 +68,6 @@ const Navbar = () => {
                   <button
                     onClick={handleLogout}
                     className="text-gray-400 hover:text-white transition"
-                    title="Logout"
                   >
                     <LogOut size={20} />
                   </button>

@@ -12,13 +12,15 @@ import ProductCard from '../components/ProductCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { productAPI } from '../services/productAPI';
 import { setLoading, getFeaturedSuccess } from '../features/productSlice';
+import { fetchSettings } from '../features/settingsSlice';
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const { featuredProducts, isLoading } = useSelector(state => state.products);
+  const { settings } = useSelector(state => state.settings);
 
   useEffect(() => {
-    const fetchFeaturedProducts = async () => {
+    const fetchData = async () => {
       dispatch(setLoading());
       try {
         const data = await productAPI.getFeaturedProducts();
@@ -28,25 +30,28 @@ const HomePage = () => {
       }
     };
 
-    fetchFeaturedProducts();
+    fetchData();
+    dispatch(fetchSettings());
   }, [dispatch]);
 
   return (
     <MainLayout>
       {/* Promotional Banner */}
-      <div className="bg-red-600 text-white text-center py-3 px-4 text-sm md:text-base font-semibold">
-        <div className="flex items-center justify-center gap-4 flex-wrap">
-          <span>⭐ Promotion jusqu'à -60% sur plusieurs produits</span>
-          <span>⭐ Livraison à domicile Gratuite sur toute la Tunisie</span>
-          <span>⭐ Possibilité d'ouvrir le colis avant paiement</span>
+      {settings?.banner?.isVisible && (
+        <div className={`${settings.banner.backgroundColor} ${settings.banner.textColor} text-center py-3 px-4 text-sm md:text-base font-semibold`}>
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            {settings.banner.messages.map((msg, idx) => (
+              <span key={idx}>{msg}</span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Hero Section with Featured Collections */}
       <section className="relative h-96 md:h-96 overflow-hidden bg-black">
         <div className="grid grid-cols-2 h-full gap-0">
           {/* Left Hero */}
-          <div 
+          <div
             className="relative bg-cover bg-center flex items-center justify-center text-white group"
             style={{
               backgroundImage: 'url(https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=600&fit=crop)',
@@ -55,7 +60,7 @@ const HomePage = () => {
           >
             <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition"></div>
             <div className="relative text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">New Sneakers Collection</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Nouvelle Collection Sneakers</h2>
               <button className="bg-white text-black px-6 py-2 font-semibold hover:bg-gray-200 transition">
                 Découvrir
               </button>
@@ -63,7 +68,7 @@ const HomePage = () => {
           </div>
 
           {/* Right Hero */}
-          <div 
+          <div
             className="relative bg-cover bg-center flex items-center justify-center text-white group"
             style={{
               backgroundImage: 'url(https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=600&fit=crop)',
@@ -72,7 +77,7 @@ const HomePage = () => {
           >
             <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition"></div>
             <div className="relative text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">New Tracksuit Collection</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Nouvelle Collection Survêtements</h2>
               <button className="bg-white text-black px-6 py-2 font-semibold hover:bg-gray-200 transition">
                 Découvrir
               </button>
@@ -115,7 +120,7 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-bold mb-2 text-black">TOP CATEGORIES</h2>
           <div className="w-16 h-1 bg-red-600 mb-8"></div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {[
               {
@@ -136,8 +141,8 @@ const HomePage = () => {
                 to="/products"
                 className="relative h-48 rounded overflow-hidden group"
               >
-                <img 
-                  src={category.image} 
+                <img
+                  src={category.image}
                   alt={category.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                 />

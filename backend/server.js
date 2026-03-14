@@ -10,6 +10,7 @@ import compression from 'compression';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import connectDB from './config/database.js';
+import { configureCloudinary } from './config/cloudinary.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 // Import routes
@@ -18,6 +19,7 @@ import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import settingsRoutes from './routes/settingsRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -31,7 +33,7 @@ app.use(compression()); // Gzip compression
 
 // Middleware
 app.use(cors({
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     const allowedOrigins = [
       process.env.FRONTEND_URL || 'http://localhost:5174',
       'http://localhost:5173',
@@ -49,8 +51,14 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// Serve Static Files
+app.use('/uploads', express.static('public/uploads'));
+
 // Connect to database
 connectDB();
+
+// Configure Cloudinary
+configureCloudinary();
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -58,6 +66,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

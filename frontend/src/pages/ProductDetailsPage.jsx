@@ -12,11 +12,11 @@ const ProductDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [addingToCart, setAddingToCart] = useState(false);
@@ -28,7 +28,7 @@ const ProductDetailsPage = () => {
         const data = await productAPI.getProductById(id);
         setProduct(data.product);
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch product details.');
+        setError(err.response?.data?.message || 'Échec de la récupération des détails du produit.');
       } finally {
         setIsLoading(false);
       }
@@ -49,9 +49,9 @@ const ProductDetailsPage = () => {
 
   const handleAddToCart = () => {
     if (product.stock === 0) return;
-    
+
     setAddingToCart(true);
-    
+
     const cartItem = {
       productId: product._id,
       productName: product.name,
@@ -61,10 +61,10 @@ const ProductDetailsPage = () => {
     };
 
     dispatch(addToCartSuccess(cartItem));
-    
+
     setTimeout(() => {
       setAddingToCart(false);
-      toast.success(`${product.name} added to cart!`);
+      toast.success(`${product.name} ajouté au panier !`);
     }, 500);
   };
 
@@ -82,13 +82,13 @@ const ProductDetailsPage = () => {
     return (
       <MainLayout>
         <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Error Loading Product</h2>
-          <p className="text-gray-600 mb-8">{error || 'Product not found.'}</p>
-          <button 
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Erreur de chargement du produit</h2>
+          <p className="text-gray-600 mb-8">{error || 'Produit non trouvé.'}</p>
+          <button
             onClick={() => navigate('/products')}
             className="bg-primary text-white px-6 py-2 rounded-lg font-semibold"
           >
-            Back to Products
+            Retour aux produits
           </button>
         </div>
       </MainLayout>
@@ -98,19 +98,19 @@ const ProductDetailsPage = () => {
   return (
     <MainLayout>
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <button 
+        <button
           onClick={() => navigate(-1)}
           className="flex items-center space-x-2 text-gray-600 hover:text-primary mb-8 transition"
         >
           <ArrowLeft size={20} />
-          <span>Back</span>
+          <span>Retour</span>
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Product Image */}
           <div className="bg-white rounded-xl shadow-sm overflow-hidden p-6 flex justify-center items-center h-[500px]">
-            <img 
-              src={product.images && product.images.length > 0 ? product.images[0].url : 'https://via.placeholder.com/500'} 
+            <img
+              src={product.images && product.images.length > 0 ? product.images[0].url : 'https://via.placeholder.com/500'}
               alt={product.name}
               className="max-h-full object-contain"
             />
@@ -119,37 +119,37 @@ const ProductDetailsPage = () => {
           {/* Product Details */}
           <div className="flex flex-col">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-            
+
             <div className="flex items-center space-x-4 mb-4">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i} 
-                    size={18} 
-                    className={i < Math.round(product.averageRating || 0) ? "text-yellow-400 fill-current" : "text-gray-300"} 
+                  <Star
+                    key={i}
+                    size={18}
+                    className={i < Math.round(product.averageRating || 0) ? "text-yellow-400 fill-current" : "text-gray-300"}
                   />
                 ))}
                 <span className="ml-2 text-gray-600 text-sm">
-                  ({product.numOfReviews || 0} reviews)
+                  ({product.numOfReviews || 0} avis)
                 </span>
               </div>
               <span className="text-gray-400">|</span>
               <span className={`text-sm font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-500'}`}>
-                {product.stock > 0 ? `In Stock (${product.stock})` : 'Out of Stock'}
+                {product.stock > 0 ? `En Stock (${product.stock})` : 'Rupture de Stock'}
               </span>
             </div>
 
             <div className="mb-6 flex items-end space-x-4">
               {product.discountPrice ? (
                 <>
-                  <span className="text-4xl font-bold text-gray-900">${product.discountPrice.toFixed(2)}</span>
-                  <span className="text-xl text-gray-500 line-through mb-1">${product.price.toFixed(2)}</span>
+                  <span className="text-4xl font-bold text-gray-900">{product.discountPrice.toFixed(2)} DT</span>
+                  <span className="text-xl text-gray-500 line-through mb-1">{product.price.toFixed(2)} DT</span>
                   <span className="bg-red-100 text-red-700 font-semibold px-2 py-1 rounded text-sm mb-1">
-                    Save ${(product.price - product.discountPrice).toFixed(2)}
+                    Économisez {(product.price - product.discountPrice).toFixed(2)} DT
                   </span>
                 </>
               ) : (
-                <span className="text-4xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
+                <span className="text-4xl font-bold text-gray-900">{product.price.toFixed(2)} DT</span>
               )}
             </div>
 
@@ -158,10 +158,10 @@ const ProductDetailsPage = () => {
             </p>
 
             <div className="border-t border-gray-200 pt-8 mb-8">
-              <p className="font-semibold text-gray-800 mb-4">Quantity</p>
+              <p className="font-semibold text-gray-800 mb-4">Quantité</p>
               <div className="flex items-center space-x-6">
                 <div className="flex items-center border border-gray-300 rounded-lg">
-                  <button 
+                  <button
                     onClick={() => handleQuantityChange('decrement')}
                     disabled={quantity <= 1 || product.stock === 0}
                     className="p-3 text-gray-600 hover:text-primary disabled:opacity-50"
@@ -169,7 +169,7 @@ const ProductDetailsPage = () => {
                     <Minus size={20} />
                   </button>
                   <span className="w-12 text-center font-semibold text-lg">{quantity}</span>
-                  <button 
+                  <button
                     onClick={() => handleQuantityChange('increment')}
                     disabled={quantity >= product.stock || product.stock === 0}
                     className="p-3 text-gray-600 hover:text-primary disabled:opacity-50"
@@ -179,7 +179,7 @@ const ProductDetailsPage = () => {
                 </div>
 
                 <div className="text-gray-500 text-sm">
-                  Total: <span className="font-bold text-gray-800">${((product.discountPrice || product.price) * quantity).toFixed(2)}</span>
+                  Total : <span className="font-bold text-gray-800">{((product.discountPrice || product.price) * quantity).toFixed(2)} DT</span>
                 </div>
               </div>
             </div>
@@ -189,22 +189,22 @@ const ProductDetailsPage = () => {
                 onClick={handleAddToCart}
                 disabled={product.stock === 0 || addingToCart}
                 className={`w-full py-4 rounded-xl flex items-center justify-center space-x-2 text-lg font-bold transition-all
-                  ${product.stock === 0 
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-                    : addingToCart 
-                      ? 'bg-green-500 text-white' 
+                  ${product.stock === 0
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : addingToCart
+                      ? 'bg-green-500 text-white'
                       : 'bg-primary text-white hover:bg-primary/90 shadow-lg hover:shadow-xl'
                   }`}
               >
                 {addingToCart ? (
                   <>
                     <Check size={24} />
-                    <span>Added to Cart</span>
+                    <span>Ajouté au panier</span>
                   </>
                 ) : (
                   <>
                     <ShoppingCart size={24} />
-                    <span>{product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
+                    <span>{product.stock === 0 ? 'Rupture de Stock' : 'Ajouter au panier'}</span>
                   </>
                 )}
               </button>

@@ -22,22 +22,22 @@ const Footer = () => {
               <span className="font-bold text-xl text-white">EShop</span>
             </div>
             <p className="text-sm text-gray-400">
-              Your one-stop destination for quality products and exceptional shopping experience.
+              Votre destination unique pour des produits de qualité et une expérience de shopping exceptionnelle.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Quick Links</h4>
+            <h4 className="font-semibold text-white mb-4">Liens Rapides</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link to="/products" className="hover:text-primary transition">
-                  Shop
+                  Boutique
                 </Link>
               </li>
               <li>
                 <Link to="/about" className="hover:text-primary transition">
-                  About Us
+                  À Propos
                 </Link>
               </li>
               <li>
@@ -55,26 +55,26 @@ const Footer = () => {
 
           {/* Customer Service */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Customer Service</h4>
+            <h4 className="font-semibold text-white mb-4">Service Client</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link to="/shipping" className="hover:text-primary transition">
-                  Shipping Info
+                  Infos Livraison
                 </Link>
               </li>
               <li>
                 <Link to="/returns" className="hover:text-primary transition">
-                  Returns
+                  Retours
                 </Link>
               </li>
               <li>
                 <Link to="/privacy" className="hover:text-primary transition">
-                  Privacy Policy
+                  Confidentialité
                 </Link>
               </li>
               <li>
                 <Link to="/terms" className="hover:text-primary transition">
-                  Terms & Conditions
+                  Conditions Générales
                 </Link>
               </li>
             </ul>
@@ -84,12 +84,12 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-white mb-4">Newsletter</h4>
             <p className="text-sm text-gray-400 mb-3">
-              Subscribe to get special offers and updates!
+              Inscrivez-vous pour recevoir nos offres spéciales !
             </p>
             <div className="flex">
               <input
                 type="email"
-                placeholder="Your email"
+                placeholder="Votre email"
                 className="flex-1 px-3 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none"
               />
               <button className="bg-primary hover:bg-primary/90 px-4 py-2 rounded-r-lg transition">
@@ -105,7 +105,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-400 mb-4 md:mb-0">
-            &copy; {currentYear} EShop. All rights reserved.
+            &copy; {currentYear} EShop. Tous droits réservés.
           </p>
 
           {/* Social Icons */}

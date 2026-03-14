@@ -26,7 +26,7 @@ const CheckoutPage = () => {
 
     useEffect(() => {
         if (!isAuthenticated) {
-            toast.info('Please log in to proceed to checkout');
+            toast.info('Veuillez vous connecter pour passer à la caisse');
             navigate('/login');
         } else if (items.length === 0) {
             navigate('/cart');
@@ -43,7 +43,7 @@ const CheckoutPage = () => {
 
         // Form validation
         if (!shippingAddress.street || !shippingAddress.city || !shippingAddress.state || !shippingAddress.postalCode || !shippingAddress.country) {
-            return toast.error("Please fill out all shipping details.");
+            return toast.error("Veuillez remplir tous les détails de livraison.");
         }
 
         setIsProcessing(true);
@@ -69,12 +69,12 @@ const CheckoutPage = () => {
                     // Redirect to Stripe checkout page
                     window.location.href = checkoutRes.sessionUrl;
                 } else {
-                    toast.error("Failed to initialize payment session. Please try again.");
+                    toast.error("Échec de l'initialisation de la session de paiement. Veuillez réessayer.");
                     setIsProcessing(false);
                 }
             }
         } catch (error) {
-            const msg = error.response?.data?.message || 'Error creating order';
+            const msg = error.response?.data?.message || 'Erreur lors de la création de la commande';
             toast.error(msg);
             setIsProcessing(false);
         }
@@ -95,10 +95,10 @@ const CheckoutPage = () => {
                     className="flex items-center space-x-2 text-gray-600 hover:text-primary mb-6 transition"
                 >
                     <ChevronLeft size={20} />
-                    <span>Back to Cart</span>
+                    <span>Retour au panier</span>
                 </button>
 
-                <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+                <h1 className="text-3xl font-bold mb-8">Caisse</h1>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     {/* Form Content */}
@@ -106,12 +106,12 @@ const CheckoutPage = () => {
                         <div className="bg-white rounded-xl shadow-sm p-8 mb-8">
                             <h2 className="text-xl font-bold mb-6 flex items-center space-x-2">
                                 <span className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full text-sm">1</span>
-                                <span>Shipping Address</span>
+                                <span>Adresse de Livraison</span>
                             </h2>
 
                             <form id="checkout-form" onSubmit={handleCheckout} className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Adresse Rue</label>
                                     <input
                                         type="text"
                                         name="street"
@@ -124,7 +124,7 @@ const CheckoutPage = () => {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Ville</label>
                                         <input
                                             type="text"
                                             name="city"
@@ -135,7 +135,7 @@ const CheckoutPage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">State / Province</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">État / Gouvernorat</label>
                                         <input
                                             type="text"
                                             name="state"
@@ -149,7 +149,7 @@ const CheckoutPage = () => {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Postal Code</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Code Postal</label>
                                         <input
                                             type="text"
                                             name="postalCode"
@@ -160,7 +160,7 @@ const CheckoutPage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Pays</label>
                                         <input
                                             type="text"
                                             name="country"
@@ -177,7 +177,7 @@ const CheckoutPage = () => {
                         <div className="bg-white rounded-xl shadow-sm p-8">
                             <h2 className="text-xl font-bold mb-6 flex items-center space-x-2">
                                 <span className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full text-sm">2</span>
-                                <span>Shipping Method</span>
+                                <span>Méthode de Livraison</span>
                             </h2>
 
                             <div className="space-y-4">
@@ -193,12 +193,12 @@ const CheckoutPage = () => {
                                                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
                                             />
                                             <div className="ml-3">
-                                                <span className="block text-sm font-medium text-gray-900">Standard Shipping</span>
-                                                <span className="block text-sm text-gray-500">3-5 business days</span>
+                                                <span className="block text-sm font-medium text-gray-900">Livraison Standard</span>
+                                                <span className="block text-sm text-gray-500">3-5 jours ouvrables</span>
                                             </div>
                                         </div>
                                         <span className="text-sm font-semibold text-gray-900">
-                                            {totalPrice > 100 ? 'Free' : '$10.00'}
+                                            {totalPrice > 100 ? 'Gratuit' : '10.00 DT'}
                                         </span>
                                     </div>
                                 </label>
@@ -215,11 +215,11 @@ const CheckoutPage = () => {
                                                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
                                             />
                                             <div className="ml-3">
-                                                <span className="block text-sm font-medium text-gray-900">Express Shipping</span>
-                                                <span className="block text-sm text-gray-500">2 business days</span>
+                                                <span className="block text-sm font-medium text-gray-900">Livraison Express</span>
+                                                <span className="block text-sm text-gray-500">2 jours ouvrables</span>
                                             </div>
                                         </div>
-                                        <span className="text-sm font-semibold text-gray-900">$25.00</span>
+                                        <span className="text-sm font-semibold text-gray-900">25.00 DT</span>
                                     </div>
                                 </label>
 
@@ -235,11 +235,11 @@ const CheckoutPage = () => {
                                                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
                                             />
                                             <div className="ml-3">
-                                                <span className="block text-sm font-medium text-gray-900">Overnight</span>
-                                                <span className="block text-sm text-gray-500">1 business day</span>
+                                                <span className="block text-sm font-medium text-gray-900">Nuitée</span>
+                                                <span className="block text-sm text-gray-500">1 jour ouvrable</span>
                                             </div>
                                         </div>
-                                        <span className="text-sm font-semibold text-gray-900">$50.00</span>
+                                        <span className="text-sm font-semibold text-gray-900">50.00 DT</span>
                                     </div>
                                 </label>
                             </div>
@@ -249,7 +249,7 @@ const CheckoutPage = () => {
                     {/* Order Summary */}
                     <div>
                         <div className="bg-gray-50 rounded-xl p-8 sticky top-8">
-                            <h2 className="text-xl font-bold mb-6">Order Summary</h2>
+                            <h2 className="text-xl font-bold mb-6">Résumé de la commande</h2>
 
                             <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                                 {items.map((item) => (
@@ -262,33 +262,33 @@ const CheckoutPage = () => {
                                             />
                                             <div>
                                                 <p className="font-semibold text-gray-800 line-clamp-1">{item.productName}</p>
-                                                <p className="text-gray-500">Qty: {item.quantity}</p>
+                                                <p className="text-gray-500">Qté: {item.quantity}</p>
                                             </div>
                                         </div>
-                                        <span className="font-semibold text-gray-800">${(item.price * item.quantity).toFixed(2)}</span>
+                                        <span className="font-semibold text-gray-800">{(item.price * item.quantity).toFixed(2)} DT</span>
                                     </div>
                                 ))}
                             </div>
 
                             <div className="border-t border-gray-200 pt-4 space-y-3 mb-6">
                                 <div className="flex justify-between text-gray-600 text-sm">
-                                    <span>Subtotal</span>
-                                    <span>${totalPrice.toFixed(2)}</span>
+                                    <span>Sous-total</span>
+                                    <span>{totalPrice.toFixed(2)} DT</span>
                                 </div>
                                 <div className="flex justify-between text-gray-600 text-sm">
-                                    <span>Shipping ({shippingMethod})</span>
-                                    <span>{shippingCost === 0 ? 'Free' : `$${shippingCost.toFixed(2)}`}</span>
+                                    <span>Livraison ({shippingMethod})</span>
+                                    <span>{shippingCost === 0 ? 'Gratuit' : `${shippingCost.toFixed(2)} DT`}</span>
                                 </div>
                                 <div className="flex justify-between text-gray-600 text-sm">
-                                    <span>Estimated Tax</span>
-                                    <span>${tax.toFixed(2)}</span>
+                                    <span>TVA estimée</span>
+                                    <span>{tax.toFixed(2)} DT</span>
                                 </div>
                             </div>
 
                             <div className="border-t border-gray-900 pt-4 mb-8">
                                 <div className="flex justify-between items-end">
                                     <span className="text-lg font-bold text-gray-900">Total</span>
-                                    <span className="text-3xl font-bold text-gray-900">${finalTotal.toFixed(2)}</span>
+                                    <span className="text-3xl font-bold text-gray-900">{finalTotal.toFixed(2)} DT</span>
                                 </div>
                             </div>
 
@@ -299,18 +299,18 @@ const CheckoutPage = () => {
                                 className="w-full bg-gray-900 text-white py-4 rounded-lg font-bold hover:bg-black transition flex items-center justify-center space-x-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
                             >
                                 {isProcessing ? (
-                                    <span>Processing...</span>
+                                    <span>Traitement...</span>
                                 ) : (
                                     <>
                                         <CreditCard size={20} />
-                                        <span>Pay Now with Stripe</span>
+                                        <span>Payer maintenant avec Stripe</span>
                                     </>
                                 )}
                             </button>
 
                             <div className="mt-4 flex items-center justify-center space-x-2 text-sm text-gray-500">
                                 <Lock size={16} />
-                                <span>Secure payment processing</span>
+                                <span>Traitement sécurisé du paiement</span>
                             </div>
                         </div>
                     </div>
