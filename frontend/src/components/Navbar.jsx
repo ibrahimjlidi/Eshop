@@ -33,14 +33,14 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-black text-white sticky top-0 z-50 shadow-lg">
+    <nav className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-soft border-b border-gray-100/50">
       {/* Top Navigation Bar */}
-      <div className="border-b border-gray-800">
+      <div className="border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 font-bold text-2xl">
-              <div className="bg-red-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">
+              <div className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">
                 E
               </div>
               <span>Shop</span>
@@ -53,9 +53,9 @@ const Navbar = () => {
                 placeholder="Je cherche..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 bg-white text-black border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-red-600"
+                className="w-full px-4 py-2 bg-gray-50 text-black border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
               />
-              <button type="submit" className="ml-2 text-black">
+              <button type="submit" className="ml-2 text-gray-500 hover:text-primary transition">
                 <Search size={20} />
               </button>
             </form>
@@ -64,39 +64,39 @@ const Navbar = () => {
             <div className="hidden md:flex items-center space-x-6">
               {isAuthenticated ? (
                 <div className="flex items-center space-x-4">
-                  <span className="text-sm">{user?.firstName}</span>
+                  <span className="text-sm font-medium text-gray-700">{user?.firstName}</span>
                   <button
                     onClick={handleLogout}
-                    className="text-gray-400 hover:text-white transition"
+                    className="text-gray-500 hover:text-red-500 transition"
                   >
                     <LogOut size={20} />
                   </button>
                 </div>
               ) : (
-                <Link to="/login" className="text-gray-400 hover:text-white transition">
+                <Link to="/login" className="text-gray-600 hover:text-primary font-medium transition">
                   <span className="text-sm">Connexion</span>
                 </Link>
               )}
 
-              <Link to="/cart" className="relative group">
-                <ShoppingCart className="text-gray-400 group-hover:text-white transition" size={24} />
+              <Link to="/cart" className="relative group p-2 rounded-full hover:bg-gray-50 transition">
+                <ShoppingCart className="text-gray-600 group-hover:text-primary transition" size={24} />
                 {totalItems > 0 && (
-                  <span className="absolute -top-3 -right-3 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  <span className="absolute top-0 right-0 bg-primary text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center font-bold">
                     {totalItems}
                   </span>
                 )}
               </Link>
 
               <div className="text-sm">
-                <div className="text-gray-400">Panier</div>
-                <div className="font-semibold">0.00 DT</div>
+                <div className="text-gray-500">Panier</div>
+                <div className="font-bold text-gray-900 font-sans">0.00 DT</div>
               </div>
             </div>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden text-white"
+              className="md:hidden text-gray-900 p-2"
             >
               {menuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -105,35 +105,44 @@ const Navbar = () => {
       </div>
 
       {/* Categories Navigation */}
-      <div className="border-b border-gray-800">
+      <div className="bg-white/50 backdrop-blur-sm border-b border-gray-100 hidden md:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-8 py-4 ${menuOpen ? 'block' : 'hidden md:flex'}`}>
-            <Link to="/products" className="text-white font-semibold hover:text-red-600 transition">
-              NOUVEAUTÉS
-            </Link>
-            <Link to="/products" className="text-white font-semibold hover:text-red-600 transition">
-              TOP VENTES
-            </Link>
-            <Link to="/products" className="text-white font-semibold hover:text-red-600 transition">
-              SNEAKERS
-            </Link>
-            <Link to="/products" className="text-white font-semibold hover:text-red-600 transition">
-              VÊTEMENTS
-            </Link>
-            <Link to="/products" className="text-white font-semibold hover:text-red-600 transition">
-              MARQUES
-            </Link>
-            <Link to="/products" className="text-white font-semibold hover:text-red-600 transition">
-              ACCESSOIRES
-            </Link>
+          <div className="flex items-center space-x-10 py-4 overflow-x-auto no-scrollbar">
+            {[
+              'NOUVEAUTÉS', 'TOP VENTES', 'SNEAKERS', 'VÊTEMENTS', 'MARQUES', 'ACCESSOIRES'
+            ].map((cat) => (
+              <Link
+                key={cat}
+                to="/products"
+                className="group relative text-[13px] text-gray-600 font-bold tracking-widest hover:text-primary transition-all duration-300 uppercase whitespace-nowrap"
+              >
+                {cat}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+            ))}
             {isAuthenticated && user?.role === 'admin' && (
-              <Link to="/admin/dashboard" className="text-white font-semibold hover:text-red-600 transition">
-                ADMIN
+              <Link to="/admin/dashboard" className="text-[13px] text-primary font-bold tracking-widest hover:opacity-80 transition-all uppercase whitespace-nowrap border-l-2 pl-10 border-gray-200">
+                ADMIN PANEL
               </Link>
             )}
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {menuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-100 py-4 px-4 space-y-4 animate-fadeIn">
+          <Link to="/products" onClick={() => setMenuOpen(false)} className="block text-gray-800 font-bold hover:text-primary transition">NOUVEAUTÉS</Link>
+          <Link to="/products" onClick={() => setMenuOpen(false)} className="block text-gray-800 font-bold hover:text-primary transition">TOP VENTES</Link>
+          <Link to="/products" onClick={() => setMenuOpen(false)} className="block text-gray-800 font-bold hover:text-primary transition">SNEAKERS</Link>
+          <Link to="/products" onClick={() => setMenuOpen(false)} className="block text-gray-800 font-bold hover:text-primary transition">VÊTEMENTS</Link>
+          <Link to="/products" onClick={() => setMenuOpen(false)} className="block text-gray-800 font-bold hover:text-primary transition">MARQUES</Link>
+          <Link to="/products" onClick={() => setMenuOpen(false)} className="block text-gray-800 font-bold hover:text-primary transition">ACCESSOIRES</Link>
+          {isAuthenticated && user?.role === 'admin' && (
+            <Link to="/admin/dashboard" onClick={() => setMenuOpen(false)} className="block text-primary font-bold hover:opacity-80 transition">ADMIN PANEL</Link>
+          )}
+        </div>
+      )}
     </nav>
   );
 };

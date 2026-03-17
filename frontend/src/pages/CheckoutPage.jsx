@@ -100,13 +100,13 @@ const CheckoutPage = () => {
 
                 <h1 className="text-3xl font-bold mb-8">Caisse</h1>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 animate-fade-in-up">
                     {/* Form Content */}
-                    <div>
-                        <div className="bg-white rounded-xl shadow-sm p-8 mb-8">
-                            <h2 className="text-xl font-bold mb-6 flex items-center space-x-2">
-                                <span className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full text-sm">1</span>
-                                <span>Adresse de Livraison</span>
+                    <div className="space-y-8">
+                        <div className="glass-card rounded-3xl p-10 shadow-premium">
+                            <h2 className="text-2xl font-black mb-8 flex items-center space-x-4 text-dark tracking-tight">
+                                <span className="bg-primary text-white w-10 h-10 flex items-center justify-center rounded-2xl shadow-premium text-sm font-black">1</span>
+                                <span>Informations de Livraison</span>
                             </h2>
 
                             <form id="checkout-form" onSubmit={handleCheckout} className="space-y-4">
@@ -174,10 +174,10 @@ const CheckoutPage = () => {
                             </form>
                         </div>
 
-                        <div className="bg-white rounded-xl shadow-sm p-8">
-                            <h2 className="text-xl font-bold mb-6 flex items-center space-x-2">
-                                <span className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full text-sm">2</span>
-                                <span>Méthode de Livraison</span>
+                        <div className="glass-card rounded-3xl p-10 shadow-premium animate-fade-in-up animate-stagger-1">
+                            <h2 className="text-2xl font-black mb-8 flex items-center space-x-4 text-dark tracking-tight">
+                                <span className="bg-primary text-white w-10 h-10 flex items-center justify-center rounded-2xl shadow-premium text-sm font-black">2</span>
+                                <span>Mode de Livraison</span>
                             </h2>
 
                             <div className="space-y-4">
@@ -247,9 +247,9 @@ const CheckoutPage = () => {
                     </div>
 
                     {/* Order Summary */}
-                    <div>
-                        <div className="bg-gray-50 rounded-xl p-8 sticky top-8">
-                            <h2 className="text-xl font-bold mb-6">Résumé de la commande</h2>
+                    <div className="animate-fade-in-up animate-stagger-2">
+                        <div className="glass-card rounded-3xl p-10 sticky top-24 shadow-premium border-primary/5">
+                            <h2 className="text-2xl font-black mb-8 text-dark tracking-tight border-b border-gray-100 pb-4">Résumé</h2>
 
                             <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                                 {items.map((item) => (
@@ -296,14 +296,15 @@ const CheckoutPage = () => {
                                 type="submit"
                                 form="checkout-form"
                                 disabled={isProcessing}
-                                className="w-full bg-gray-900 text-white py-4 rounded-lg font-bold hover:bg-black transition flex items-center justify-center space-x-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                className={`w-full py-5 rounded-2xl flex items-center justify-center space-x-4 text-white uppercase tracking-widest text-sm font-black transition-all duration-300 ${isProcessing ? 'bg-gray-400' : 'btn-premium'
+                                    }`}
                             >
                                 {isProcessing ? (
-                                    <span>Traitement...</span>
+                                    <span className="animate-pulse">Traitement en cours...</span>
                                 ) : (
                                     <>
-                                        <CreditCard size={20} />
-                                        <span>Payer maintenant avec Stripe</span>
+                                        <CreditCard size={22} />
+                                        <span>Payer avec Stripe</span>
                                     </>
                                 )}
                             </button>

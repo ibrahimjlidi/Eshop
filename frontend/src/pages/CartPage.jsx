@@ -41,25 +41,24 @@ const CartPage = () => {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold mb-8">Mon Panier</h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 animate-fade-in-up">
           {/* Cart Items */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="glass-card rounded-3xl overflow-hidden shadow-premium">
               {items.map(item => (
-                <div
-                  key={item.productId}
-                  className="flex items-center justify-between p-6 border-b border-gray-200 hover:bg-gray-50 transition"
-                >
+                <div className="flex items-center justify-between p-8 border-b border-gray-100 hover:bg-white/50 transition-all duration-300 group/item">
                   {/* Product Info */}
-                  <div className="flex items-start space-x-4 flex-1">
-                    <img
-                      src={item.image || 'https://via.placeholder.com/80'}
-                      alt={item.productName}
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
+                  <div className="flex items-center space-x-6 flex-1">
+                    <div className="relative overflow-hidden rounded-2xl shadow-soft group-hover/item:shadow-premium transition-all duration-500">
+                      <img
+                        src={item.image || 'https://via.placeholder.com/80'}
+                        alt={item.productName}
+                        className="w-24 h-24 object-cover transform group-hover/item:scale-110 transition-transform duration-700"
+                      />
+                    </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-800 mb-1">{item.productName}</h3>
-                      <p className="text-gray-600 text-sm mb-2">Prix: {item.price.toFixed(2)} DT</p>
+                      <h3 className="font-black text-xl text-dark mb-1 tracking-tight">{item.productName}</h3>
+                      <p className="text-primary font-bold">{item.price.toFixed(2)} DT</p>
                     </div>
                   </div>
 
@@ -126,42 +125,39 @@ const CartPage = () => {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white rounded-lg shadow-md p-6 h-fit">
-            <h2 className="text-2xl font-bold mb-6">Résumé de la commande</h2>
+          <div className="glass-card rounded-3xl p-8 h-fit shadow-premium animate-fade-in-up animate-stagger-1 border-primary/10">
+            <h2 className="text-2xl font-black mb-8 text-dark tracking-tight border-b border-gray-100 pb-4">Résumé</h2>
 
-            <div className="space-y-4 mb-6">
-              <div className="flex justify-between text-gray-700">
-                <span>Sous-total ({totalItems} articles)</span>
-                <span>{totalPrice.toFixed(2)} DT</span>
+            <div className="space-y-4 mb-8">
+              <div className="flex justify-between text-gray-600">
+                <span className="font-medium">Sous-total ({totalItems})</span>
+                <span className="font-bold text-dark">{totalPrice.toFixed(2)} DT</span>
               </div>
-              <div className="flex justify-between text-gray-700">
-                <span>Livraison</span>
-                <span className={shippingCost === 0 ? 'text-green-600 font-semibold' : ''}>
+              <div className="flex justify-between text-gray-600">
+                <span className="font-medium">Livraison</span>
+                <span className={shippingCost === 0 ? 'text-secondary font-black' : 'font-bold text-dark'}>
                   {shippingCost === 0 ? 'GRATUIT' : `${shippingCost.toFixed(2)} DT`}
                 </span>
               </div>
-              <div className="flex justify-between text-gray-700">
-                <span>TVA (10%)</span>
-                <span>{tax.toFixed(2)} DT</span>
+              <div className="flex justify-between text-gray-600">
+                <span className="font-medium">TVA (10%)</span>
+                <span className="font-bold text-dark">{tax.toFixed(2)} DT</span>
               </div>
-              {shippingCost === 0 && (
-                <p className="text-xs text-green-600">Livraison gratuite pour les commandes de plus de 100 DT !</p>
-              )}
             </div>
 
-            <div className="border-t border-gray-200 pt-4 mb-6">
-              <div className="flex justify-between text-lg font-bold text-gray-800">
-                <span>Total</span>
-                <span>{finalTotal.toFixed(2)} DT</span>
+            <div className="border-t border-gray-100 pt-6 mb-8">
+              <div className="flex justify-between items-end">
+                <span className="text-lg font-bold text-gray-500">Total</span>
+                <span className="text-4xl font-black text-primary tracking-tighter">{finalTotal.toFixed(2)} DT</span>
               </div>
             </div>
 
             <Link
               to="/checkout"
-              className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition flex items-center justify-center space-x-2 mb-3"
+              className="w-full btn-premium text-white py-5 rounded-2xl flex items-center justify-center space-x-3 mb-4 group/btn"
             >
-              <span>Passer à la caisse</span>
-              <ArrowRight size={20} />
+              <span className="uppercase tracking-widest font-black text-sm">Passer à la caisse</span>
+              <ArrowRight size={20} className="group-hover/btn:translate-x-1 transition-transform" />
             </Link>
 
             <Link

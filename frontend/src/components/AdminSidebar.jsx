@@ -41,12 +41,12 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static left-0 top-0 h-screen w-64 bg-gray-900 text-white transition-transform duration-300 z-40 md:z-auto ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        className={`fixed md:static left-0 top-0 h-screen w-64 bg-dark text-white transition-transform duration-300 z-40 md:z-auto border-r border-white/5 ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
           }`}
       >
-        <div className="p-6 border-b border-gray-800">
+        <div className="p-8 border-b border-white/5">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Admin</h2>
+            <h2 className="text-2xl font-black tracking-tighter">EShop <span className="text-primary text-xs ml-1 uppercase font-bold tracking-widest">Admin</span></h2>
             <button
               onClick={() => setIsOpen(false)}
               className="md:hidden text-gray-400 hover:text-white"
@@ -65,8 +65,8 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
                 to={item.href}
                 onClick={() => setIsOpen(false)}
                 className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition ${isActive(item.href)
-                    ? 'bg-primary text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                  ? 'bg-primary text-white'
+                  : 'text-gray-400 hover:text-white hover:bg-gray-800'
                   }`}
               >
                 <Icon size={20} />

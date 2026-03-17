@@ -85,8 +85,8 @@ const RegisterPage = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-md mx-auto px-4 py-12">
-        <div className="bg-white rounded-lg shadow-md p-8">
+      <div className="max-w-md mx-auto section-spacing animate-fade-in-up">
+        <div className="glass-card rounded-3xl p-10 shadow-premium">
           <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Créer un Compte</h2>
 
           {errors.submit && (
@@ -213,9 +213,10 @@ const RegisterPage = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary/90 transition disabled:bg-gray-400"
+              className={`w-full py-4 text-white uppercase tracking-widest text-sm transition-all duration-300 ${isSubmitting ? 'bg-gray-400' : 'btn-premium'
+                }`}
             >
-              {isSubmitting ? 'Création...' : 'Créer un compte'}
+              {isSubmitting ? 'Création en cours...' : 'Créer mon compte'}
             </button>
           </form>
 

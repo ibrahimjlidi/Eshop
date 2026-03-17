@@ -108,11 +108,11 @@ const ProductDetailsPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Product Image */}
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden p-6 flex justify-center items-center h-[500px]">
+          <div className="glass-card rounded-3xl overflow-hidden p-8 flex justify-center items-center h-[600px] shadow-premium animate-fade-in-up">
             <img
               src={product.images && product.images.length > 0 ? product.images[0].url : 'https://via.placeholder.com/500'}
               alt={product.name}
-              className="max-h-full object-contain"
+              className="max-h-full object-contain hover:scale-105 transition-transform duration-700"
             />
           </div>
 
@@ -139,17 +139,17 @@ const ProductDetailsPage = () => {
               </span>
             </div>
 
-            <div className="mb-6 flex items-end space-x-4">
+            <div className="mb-8 flex items-end space-x-6 animate-fade-in-up animate-stagger-1">
               {product.discountPrice ? (
                 <>
-                  <span className="text-4xl font-bold text-gray-900">{product.discountPrice.toFixed(2)} DT</span>
-                  <span className="text-xl text-gray-500 line-through mb-1">{product.price.toFixed(2)} DT</span>
-                  <span className="bg-red-100 text-red-700 font-semibold px-2 py-1 rounded text-sm mb-1">
-                    Économisez {(product.price - product.discountPrice).toFixed(2)} DT
+                  <span className="text-5xl font-black text-primary">{(product.discountPrice).toFixed(2)} DT</span>
+                  <span className="text-2xl text-gray-400 line-through mb-1">{(product.price).toFixed(2)} DT</span>
+                  <span className="bg-accent/10 text-accent font-bold px-3 py-1 rounded-full text-sm mb-2 backdrop-blur-sm border border-accent/20">
+                    -{Math.round(((product.price - product.discountPrice) / product.price) * 100)}%
                   </span>
                 </>
               ) : (
-                <span className="text-4xl font-bold text-gray-900">{product.price.toFixed(2)} DT</span>
+                <span className="text-5xl font-black text-primary">{(product.price).toFixed(2)} DT</span>
               )}
             </div>
 
@@ -184,27 +184,27 @@ const ProductDetailsPage = () => {
               </div>
             </div>
 
-            <div className="mt-auto">
+            <div className="mt-auto animate-fade-in-up animate-stagger-2">
               <button
                 onClick={handleAddToCart}
                 disabled={product.stock === 0 || addingToCart}
-                className={`w-full py-4 rounded-xl flex items-center justify-center space-x-2 text-lg font-bold transition-all
+                className={`w-full py-5 rounded-2xl flex items-center justify-center space-x-3 text-xl font-black transition-all duration-300 tracking-widest uppercase
                   ${product.stock === 0
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     : addingToCart
-                      ? 'bg-green-500 text-white'
-                      : 'bg-primary text-white hover:bg-primary/90 shadow-lg hover:shadow-xl'
+                      ? 'bg-secondary text-white shadow-premium'
+                      : 'btn-premium text-white'
                   }`}
               >
                 {addingToCart ? (
                   <>
-                    <Check size={24} />
-                    <span>Ajouté au panier</span>
+                    <Check size={28} className="animate-bounce-slow" />
+                    <span>Confirmé !</span>
                   </>
                 ) : (
                   <>
-                    <ShoppingCart size={24} />
-                    <span>{product.stock === 0 ? 'Rupture de Stock' : 'Ajouter au panier'}</span>
+                    <ShoppingCart size={28} />
+                    <span>{product.stock === 0 ? 'Rupture de Stock' : 'Ajouter au Panier'}</span>
                   </>
                 )}
               </button>

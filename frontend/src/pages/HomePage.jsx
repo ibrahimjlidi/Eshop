@@ -52,16 +52,16 @@ const HomePage = () => {
         <div className="grid grid-cols-2 h-full gap-0">
           {/* Left Hero */}
           <div
-            className="relative bg-cover bg-center flex items-center justify-center text-white group"
+            className="relative bg-cover bg-center flex items-center justify-center text-white group animate-fade-in-up"
             style={{
               backgroundImage: 'url(https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=600&fit=crop)',
               backgroundSize: 'cover',
             }}
           >
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition"></div>
-            <div className="relative text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Nouvelle Collection Sneakers</h2>
-              <button className="bg-white text-black px-6 py-2 font-semibold hover:bg-gray-200 transition">
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500"></div>
+            <div className="relative text-center p-8">
+              <h2 className="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Sneakers<br /><span className="text-primary-light italic">Premium</span></h2>
+              <button className="bg-white text-black px-10 py-4 rounded-full font-bold hover:bg-primary hover:text-white transition-all duration-300 shadow-xl border-4 border-transparent hover:border-white/20">
                 Découvrir
               </button>
             </div>
@@ -69,16 +69,16 @@ const HomePage = () => {
 
           {/* Right Hero */}
           <div
-            className="relative bg-cover bg-center flex items-center justify-center text-white group"
+            className="relative bg-cover bg-center flex items-center justify-center text-white group animate-fade-in-up animate-stagger-1"
             style={{
               backgroundImage: 'url(https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=600&fit=crop)',
               backgroundSize: 'cover',
             }}
           >
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition"></div>
-            <div className="relative text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Nouvelle Collection Survêtements</h2>
-              <button className="bg-white text-black px-6 py-2 font-semibold hover:bg-gray-200 transition">
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500"></div>
+            <div className="relative text-center p-8">
+              <h2 className="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Mode<br /><span className="text-accent italic">Exclusive</span></h2>
+              <button className="bg-white text-black px-10 py-4 rounded-full font-bold hover:bg-primary hover:text-white transition-all duration-300 shadow-xl border-4 border-transparent hover:border-white/20">
                 Découvrir
               </button>
             </div>
@@ -87,19 +87,21 @@ const HomePage = () => {
       </section>
 
       {/* Featured Products Section */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold mb-2 text-black">DERNIERES NOUVEAUTÉS</h2>
-          <div className="w-16 h-1 bg-red-600 mb-4"></div>
-          <p className="text-gray-600 font-semibold">Découvrez les produits les plus récents</p>
+      <section className="max-w-7xl mx-auto section-spacing">
+        <div className="mb-16 text-center animate-fade-in-up">
+          <h2 className="text-5xl font-black mb-4 text-dark tracking-tighter uppercase">Dernières Nouveautés</h2>
+          <div className="w-24 h-1.5 bg-primary mx-auto rounded-full mb-6"></div>
+          <p className="text-gray-500 text-lg">L'excellence du style, sélectionnée pour vous.</p>
         </div>
 
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.slice(0, 8).map(product => (
-              <ProductCard key={product._id} product={product} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {featuredProducts.slice(0, 8).map((product, index) => (
+              <div key={product._id} className={`animate-fade-in-up animate-stagger-${(index % 3) + 1}`}>
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         )}
@@ -119,7 +121,7 @@ const HomePage = () => {
       <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-bold mb-2 text-black">TOP CATEGORIES</h2>
-          <div className="w-16 h-1 bg-red-600 mb-8"></div>
+          <div className="w-16 h-1 bg-primary mb-8"></div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {[
@@ -182,7 +184,7 @@ const HomePage = () => {
               },
             ].map((benefit, index) => (
               <div key={index} className="text-center">
-                <div className="text-red-600 mb-4 flex justify-center">{benefit.icon}</div>
+                <div className="text-primary mb-4 flex justify-center">{benefit.icon}</div>
                 <h3 className="text-xl font-bold mb-2 text-black">{benefit.title}</h3>
                 <p className="text-gray-600">{benefit.description}</p>
               </div>

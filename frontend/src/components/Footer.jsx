@@ -11,15 +11,17 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-dark text-slate-400 mt-24 border-t border-gray-800">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <ShoppingCart className="text-primary" size={28} />
-              <span className="font-bold text-xl text-white">EShop</span>
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="bg-primary/10 p-2 rounded-xl">
+                <ShoppingCart className="text-primary" size={24} />
+              </div>
+              <span className="font-black text-2xl text-white tracking-tighter">EShop</span>
             </div>
             <p className="text-sm text-gray-400">
               Votre destination unique pour des produits de qualité et une expérience de shopping exceptionnelle.
@@ -86,14 +88,14 @@ const Footer = () => {
             <p className="text-sm text-gray-400 mb-3">
               Inscrivez-vous pour recevoir nos offres spéciales !
             </p>
-            <div className="flex">
+            <div className="flex bg-white/5 rounded-2xl p-1 border border-white/10 focus-within:border-primary/50 transition-all">
               <input
                 type="email"
                 placeholder="Votre email"
-                className="flex-1 px-3 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none"
+                className="flex-1 px-4 py-3 bg-transparent text-white placeholder-gray-500 focus:outline-none text-sm"
               />
-              <button className="bg-primary hover:bg-primary/90 px-4 py-2 rounded-r-lg transition">
-                <Mail size={18} />
+              <button className="btn-premium px-6 py-2 rounded-xl transition shadow-lg">
+                <Mail size={18} className="text-white" />
               </button>
             </div>
           </div>

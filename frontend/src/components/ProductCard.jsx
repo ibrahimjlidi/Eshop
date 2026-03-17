@@ -53,8 +53,8 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <Link to={`/product/${product._id}`}>
-      <div className="bg-white rounded-lg shadow hover:shadow-lg transition duration-300 overflow-hidden">
+    <Link to={`/product/${product._id}`} className="block group">
+      <div className="bg-white rounded-2xl shadow-soft hover-lift overflow-hidden border border-gray-100 transition-all duration-500">
         {/* Image Container */}
         <div className="relative overflow-hidden h-64 bg-gray-200">
           <img
@@ -63,17 +63,17 @@ const ProductCard = ({ product }) => {
             className="w-full h-full object-cover hover:scale-110 transition duration-300"
           />
           {discountPercent > 0 && (
-            <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            <div className="absolute top-3 right-3 bg-accent text-white px-3 py-1 rounded-full text-sm font-semibold">
               -{discountPercent}%
             </div>
           )}
           <button
             onClick={handleWishlist}
-            className="absolute top-3 left-3 bg-white p-2 rounded-full shadow hover:bg-gray-100 transition"
+            className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-soft hover:bg-white transition-all transform hover:scale-110 active:scale-95 group/wishlist"
           >
             <Heart
-              size={20}
-              className={isWishlisted ? "text-red-500 fill-red-500" : "text-gray-400 hover:text-red-500"}
+              size={18}
+              className={isWishlisted ? "text-red-500 fill-red-500" : "text-gray-400 group-hover/wishlist:text-red-500 transition-colors"}
             />
           </button>
         </div>
@@ -123,10 +123,15 @@ const ProductCard = ({ product }) => {
           <button
             onClick={handleAddToCart}
             disabled={product.stock <= 0}
-            className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary/90 transition disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            className={`w-full py-3 px-4 flex items-center justify-center space-x-2 transition-all duration-300 ${product.stock > 0
+                ? 'btn-premium text-white'
+                : 'bg-gray-100 text-gray-400 cursor-not-allowed rounded-xl'
+              }`}
           >
-            <ShoppingCart size={18} />
-            <span>{product.stock > 0 ? 'Ajouter au panier' : 'Rupture de Stock'}</span>
+            <ShoppingCart size={18} className={product.stock > 0 ? "animate-bounce-slow" : ""} />
+            <span className="text-sm tracking-wide uppercase font-bold">
+              {product.stock > 0 ? 'Ajouter au panier' : 'Rupture de Stock'}
+            </span>
           </button>
         </div>
       </div>
