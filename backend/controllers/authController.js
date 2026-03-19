@@ -13,17 +13,17 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   // Validate input
   if (!firstName || !lastName || !email || !password) {
-    throw new AppError('Please provide all required fields', 400);
+    throw new AppError('Veuillez remplir tous les champs obligatoires', 400);
   }
 
   if (password !== confirmPassword) {
-    throw new AppError('Passwords do not match', 400);
+    throw new AppError('Les mots de passe ne correspondent pas', 400);
   }
 
   // Check if user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    throw new AppError('User with this email already exists', 400);
+    throw new AppError('Cet utilisateur existe déjà', 400);
   }
 
   // Create new user
@@ -42,7 +42,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     success: true,
-    message: 'User registered successfully',
+    message: 'Utilisateur enregistré avec succès',
     token,
     user,
   });
@@ -54,19 +54,19 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   // Validate input
   if (!email || !password) {
-    throw new AppError('Please provide email and password', 400);
+    throw new AppError('Veuillez indiquer votre adresse e-mail et votre mot de passe', 400);
   }
 
   // Find user and select password field
   const user = await User.findOne({ email }).select('+password');
   if (!user) {
-    throw new AppError('Invalid email or password', 401);
+    throw new AppError('Email ou mot de passe invalide', 401);
   }
 
   // Check password
   const isPasswordValid = await user.comparePassword(password);
   if (!isPasswordValid) {
-    throw new AppError('Invalid email or password', 401);
+    throw new AppError('Email ou mot de passe invalide', 401);
   }
 
   // Generate token
@@ -77,7 +77,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Logged in successfully',
+    message: 'Connexion réussie',
     token,
     user,
   });
@@ -88,7 +88,7 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 
   if (!user) {
-    throw new AppError('User not found', 404);
+    throw new AppError('Utilisateur introuvable', 404);
   }
 
   res.status(200).json({
@@ -101,7 +101,7 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
 export const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'Logged out successfully',
+    message: 'Déconnecté avec succès',
   });
 });
 
@@ -121,12 +121,12 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
   );
 
   if (!user) {
-    throw new AppError('User not found', 404);
+    throw new AppError('Utilisateur introuvable', 404);
   }
 
   res.status(200).json({
     success: true,
-    message: 'Profile updated successfully',
+    message: 'Profil mis à jour avec succès',
     user,
   });
 });
