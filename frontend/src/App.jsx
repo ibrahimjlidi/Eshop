@@ -16,8 +16,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
 import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+//import LoginPage from './pages/LoginPage';
+//import RegisterPage from './pages/RegisterPage';
 import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
@@ -43,8 +43,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+
           <Route path="/cart" element={<CartPage />} />
           <Route path="/product/:id" element={<ProductDetailsPage />} />
           <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
