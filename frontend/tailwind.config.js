@@ -8,12 +8,12 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: '#818cf8',
-          DEFAULT: '#6366f1',
-          dark: '#4f46e5',
+          light: '#a78bfa', // Violet 400
+          DEFAULT: '#8b5cf6', // Violet 500
+          dark: '#7e22ce', // Purple 700
         },
-        secondary: '#10b981',
-        accent: '#f59e0b',
+        secondary: '#f97316', // Orange 500
+        accent: '#fbbf24', // Amber/Orange blend
         surface: '#f8fafc',
         dark: '#0f172a',
       },
@@ -21,8 +21,8 @@ export default {
         sans: ['Outfit', 'sans-serif'],
       },
       boxShadow: {
-        'premium': '0 10px 30px -10px rgba(99, 102, 241, 0.2)',
-        'premium-hover': '0 20px 40px -15px rgba(99, 102, 241, 0.3)',
+        'premium': '0 10px 30px -10px rgba(139, 92, 246, 0.2)', // Updated to Mauve
+        'premium-hover': '0 20px 40px -15px rgba(139, 92, 246, 0.3)', // Updated to Mauve
         'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
       },
       animation: {
