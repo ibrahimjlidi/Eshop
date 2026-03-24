@@ -6,8 +6,46 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ShoppingCart, Search, Menu, X, LogOut } from 'lucide-react';
+import { ShoppingCart, Search, Menu, X, LogOut, ArrowRight } from 'lucide-react';
 import { logout } from '../features/authSlice';
+
+const megaMenuData = {
+  'NOUVEAUTÉS': {
+    columns: [
+      { title: 'Tendance', links: ['Streetwear', 'Minimaliste', 'Vintage', 'Techwear'] },
+      { title: 'Collections', links: ['Printemps 2024', 'Exclusivités', 'Éditions Limitées', 'Collaborations'] }
+    ],
+    image: 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800&q=80',
+    tag: 'Collection 2024'
+  },
+  'TOP VENTES': {
+    columns: [
+      { title: 'Populaire', links: ['Sneakers Classiques', 'T-shirts Graphiques', 'Vestes Légères'] },
+      { title: 'Essentiels', links: ['Hoodies', 'Chaussettes', 'Casquettes', 'Sacs à dos'] }
+    ],
+    image: 'https://images.unsplash.com/photo-1523398002811-999aa8e9f5b9?w=800&q=80',
+    tag: 'Best Sellers'
+  },
+  'SNEAKERS': {
+    columns: [
+      { title: 'Marques', links: ['Nike', 'Adidas', 'New Balance', 'Asics'] },
+      { title: 'Styles', links: ['Running', 'Lifestyle', 'Basketball', 'Skate'] }
+    ],
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
+    tag: 'Hyped'
+  },
+  'VÊTEMENTS': {
+    columns: [
+      { title: 'Hauts', links: ['T-shirts', 'Sweats & Pulls', 'Vestes & Manteaux'] },
+      { title: 'Bas', links: ['Pantalons', 'Jeans', 'Shorts', 'Joggings'] }
+    ],
+    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80',
+    tag: 'Nouveautés'
+  },
+  'MARQUES': null,
+  'ACCESSOIRES': null
+};
+
 import AuthModal from '../components/AuthModal';
 
 const Navbar = () => {
@@ -136,26 +174,59 @@ const Navbar = () => {
         <div className="bg-white/50 backdrop-blur-sm border-b border-gray-100 hidden md:block">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <div className="flex items-center space-x-10 py-4 overflow-x-auto no-scrollbar">
+            <div className="flex items-center space-x-10 py-4">
 
-              {[
-                'NOUVEAUTÉS',
-                'TOP VENTES',
-                'SNEAKERS',
-                'VÊTEMENTS',
-                'MARQUES',
-                'ACCESSOIRES'
-              ].map((cat) => (
+              {Object.keys(megaMenuData).map((cat) => (
 
-                <Link
-                  key={cat}
-                  to="/products"
-                  className="group relative text-[13px] text-gray-600 font-bold tracking-widest hover:text-primary transition uppercase whitespace-nowrap"
-                >
-                  {cat}
+                <div key={cat} className="group/nav relative py-4">
+                  <Link
+                    to="/products"
+                    className="relative text-[13px] text-gray-600 font-bold tracking-widest hover:text-primary transition uppercase whitespace-nowrap z-10 block"
+                  >
+                    {cat}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover/nav:w-full"></span>
+                  </Link>
 
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
-                </Link>
+                  {/* Mega Menu Dropdown */}
+                  {megaMenuData[cat] && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-[650px] bg-white rounded-2xl shadow-premium opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-300 transform translate-y-4 group-hover/nav:translate-y-0 z-50 overflow-hidden border border-gray-100/50 backdrop-blur-xl">
+                      <div className="grid grid-cols-3 p-6 gap-6">
+                        {/* Links Columns */}
+                        <div className="col-span-2 grid grid-cols-2 gap-4">
+                          {megaMenuData[cat].columns.map((col, idx) => (
+                            <div key={idx}>
+                              <h3 className="font-black text-dark mb-4 uppercase tracking-wider text-sm">{col.title}</h3>
+                              <ul className="space-y-3">
+                                {col.links.map((link, i) => (
+                                  <li key={i}>
+                                    <Link to="/products" className="text-gray-500 hover:text-primary transition text-sm font-medium flex items-center group/link">
+                                      <span className="w-0 h-[1px] bg-primary mr-0 transition-all group-hover/link:w-2 group-hover/link:mr-2 inline-block"></span>
+                                      {link}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Featured Image */}
+                        <div className="col-span-1 relative rounded-xl overflow-hidden group/img h-full min-h-[200px]">
+                          <img src={megaMenuData[cat].image} alt={cat} className="absolute inset-0 w-full h-full object-cover group-hover/img:scale-110 transition duration-700" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent"></div>
+                          <div className="absolute bottom-4 left-4 right-4">
+                            <span className="inline-block bg-secondary text-white text-[10px] font-black uppercase px-2 py-1 rounded mb-2 shadow-soft">
+                              {megaMenuData[cat].tag}
+                            </span>
+                            <div className="text-white font-bold text-sm uppercase tracking-wider flex items-center group-hover/img:text-primary-light transition-colors">
+                              Découvrir <ArrowRight size={14} className="ml-1 transform group-hover/img:translate-x-1 transition-transform" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
 
               ))}
 

@@ -149,7 +149,7 @@ const AuthModal = ({ open, setOpen }) => {
                 {/* Close Button */}
                 <button
                     onClick={() => setOpen(false)}
-                    className="absolute top-4 right-4 text-gray-500 hover:text-black text-xl"
+                    className="absolute top-4 right-4 text-gray-500 hover:text-primary transition-colors text-xl"
                 >
                     ✕
                 </button>
@@ -386,20 +386,20 @@ const AuthModal = ({ open, setOpen }) => {
                         <>
                             Vous n'avez pas de compte ?
                             <button
-                                onClick={() => switchMode("register")}
-                                className="text-black font-semibold ml-2 hover:text-gray-700"
+                                onClick={() => switchMode('register')}
+                                className="text-primary font-bold ml-2 hover:text-primary-dark transition-colors"
                             >
-                                Inscrivez-vous
+                                Créer un compte
                             </button>
                         </>
                     ) : (
                         <>
                             Vous avez déjà un compte ?
                             <button
-                                onClick={() => switchMode("login")}
-                                className="text-black font-semibold ml-2 hover:text-gray-700"
+                                onClick={() => switchMode('login')}
+                                className="text-primary font-bold ml-2 hover:text-primary-dark transition-colors"
                             >
-                                Connectez-vous
+                                Se connecter
                             </button>
                         </>
                     )}

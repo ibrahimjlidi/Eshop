@@ -90,7 +90,7 @@ const AdminUsersPage = () => {
                                     </td>
                                     <td className="p-4 text-gray-600">{u.email}</td>
                                     <td className="p-4">
-                                        <span className={`px-2 py-1 rounded text-xs font-semibold uppercase tracking-wider ${u.role === 'admin' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-600'}`}>
+                                        <span className={`px-2 py-1 rounded text-xs font-semibold uppercase tracking-wider ${u.role === 'admin' ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-600'}`}>
                                             {u.role}
                                         </span>
                                     </td>
@@ -101,7 +101,7 @@ const AdminUsersPage = () => {
                                         <div className="flex justify-end space-x-2">
                                             <button
                                                 onClick={() => handleRoleToggle(u._id, u.role)}
-                                                className="p-2 text-indigo-600 hover:bg-indigo-50 rounded transition"
+                                                className="p-2 text-primary hover:bg-primary/10 rounded transition"
                                                 title="Basculer les droits d'administrateur"
                                             >
                                                 <Shield size={18} />

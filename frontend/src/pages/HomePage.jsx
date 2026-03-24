@@ -120,7 +120,7 @@ const HomePage = () => {
       {/* Categories Section */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-2 text-black">TOP CATEGORIES</h2>
+          <h2 className="text-4xl font-bold mb-2 text-dark">TOP CATEGORIES</h2>
           <div className="w-16 h-1 bg-primary mb-8"></div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
@@ -185,7 +185,7 @@ const HomePage = () => {
             ].map((benefit, index) => (
               <div key={index} className="text-center">
                 <div className="text-primary mb-4 flex justify-center">{benefit.icon}</div>
-                <h3 className="text-xl font-bold mb-2 text-black">{benefit.title}</h3>
+                <h3 className="text-xl font-bold mb-2 text-dark">{benefit.title}</h3>
                 <p className="text-gray-600">{benefit.description}</p>
               </div>
             ))}
