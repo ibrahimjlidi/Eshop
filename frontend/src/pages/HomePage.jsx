@@ -60,8 +60,8 @@ const HomePage = () => {
           >
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500"></div>
             <div className="relative text-center p-8">
-              <h2 className="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Sneakers<br /><span className="text-primary-light italic">Premium</span></h2>
-              <button className="bg-white text-black px-10 py-4 rounded-full font-bold hover:bg-primary hover:text-white transition-all duration-300 shadow-xl border-4 border-transparent hover:border-white/20">
+              <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">Sneakers<br /><span className="text-primary-light italic">Premium</span></h2>
+              <button className="bg-white text-dark px-10 py-4 rounded-full font-black uppercase tracking-widest text-sm hover:bg-primary hover:text-white transition-all duration-500 shadow-premium hover:shadow-premium-hover transform hover:-translate-y-1 active:translate-y-0">
                 Découvrir
               </button>
             </div>
@@ -77,8 +77,8 @@ const HomePage = () => {
           >
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500"></div>
             <div className="relative text-center p-8">
-              <h2 className="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Mode<br /><span className="text-accent italic">Exclusive</span></h2>
-              <button className="bg-white text-black px-10 py-4 rounded-full font-bold hover:bg-primary hover:text-white transition-all duration-300 shadow-xl border-4 border-transparent hover:border-white/20">
+              <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">Mode<br /><span className="text-secondary italic">Exclusive</span></h2>
+              <button className="bg-white text-dark px-10 py-4 rounded-full font-black uppercase tracking-widest text-sm hover:bg-secondary hover:text-white transition-all duration-500 shadow-premium hover:shadow-premium-hover transform hover:-translate-y-1 active:translate-y-0">
                 Découvrir
               </button>
             </div>

@@ -54,15 +54,15 @@ const Navbar = () => {
               </Link>
 
               {/* Search */}
-              <form onSubmit={handleSearch} className="hidden md:flex flex-1 mx-8">
+              <form onSubmit={handleSearch} className="hidden md:flex flex-1 mx-8 relative group">
                 <input
                   type="text"
                   placeholder="Je cherche..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 bg-gray-50 text-black border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-5 py-2.5 bg-gray-50 text-dark border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-secondary/10 focus:border-secondary/30 transition-all duration-300"
                 />
-                <button type="submit" className="ml-2 text-gray-500 hover:text-primary">
+                <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-secondary group-focus-within:text-secondary transition-colors">
                   <Search size={20} />
                 </button>
               </form>
@@ -114,8 +114,8 @@ const Navbar = () => {
                 </Link>
 
                 <div className="text-sm">
-                  <div className="text-gray-500">Panier</div>
-                  <div className="font-bold text-gray-900">0.00 DT</div>
+                  <div className="text-gray-500 text-[10px] uppercase tracking-widest font-bold">Panier</div>
+                  <div className="font-black text-dark tracking-tighter">0.00 DT</div>
                 </div>
 
               </div>

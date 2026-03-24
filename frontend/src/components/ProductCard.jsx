@@ -63,7 +63,7 @@ const ProductCard = ({ product }) => {
             className="w-full h-full object-cover hover:scale-110 transition duration-300"
           />
           {discountPercent > 0 && (
-            <div className="absolute top-3 right-3 bg-accent text-white px-3 py-1 rounded-full text-sm font-semibold">
+            <div className="absolute top-3 right-3 bg-secondary text-white px-3 py-1 rounded-full text-sm font-black shadow-premium">
               -{discountPercent}%
             </div>
           )}
@@ -100,12 +100,12 @@ const ProductCard = ({ product }) => {
 
           {/* Price */}
           <div className="flex items-center space-x-2 mb-3">
-            <span className="text-lg font-bold text-primary">
-              ${(product.discountPrice || product.price).toFixed(2)}
+            <span className="text-xl font-black text-primary tracking-tighter">
+              {(product.discountPrice || product.price).toFixed(2)} DT
             </span>
             {product.discountPrice && (
-              <span className="text-sm text-gray-500 line-through">
-                ${product.price.toFixed(2)}
+              <span className="text-sm text-gray-400 line-through">
+                {product.price.toFixed(2)} DT
               </span>
             )}
           </div>
@@ -124,8 +124,8 @@ const ProductCard = ({ product }) => {
             onClick={handleAddToCart}
             disabled={product.stock <= 0}
             className={`w-full py-3 px-4 flex items-center justify-center space-x-2 transition-all duration-300 ${product.stock > 0
-                ? 'btn-premium text-white'
-                : 'bg-gray-100 text-gray-400 cursor-not-allowed rounded-xl'
+              ? 'btn-premium text-white'
+              : 'bg-gray-100 text-gray-400 cursor-not-allowed rounded-xl'
               }`}
           >
             <ShoppingCart size={18} className={product.stock > 0 ? "animate-bounce-slow" : ""} />

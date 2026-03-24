@@ -196,9 +196,9 @@ const AuthModal = ({ open, setOpen }) => {
 
                         <button
                             type="submit"
-                            className="w-full bg-black text-white py-2 rounded-lg font-semibold hover:bg-gray-800 transition"
+                            className="w-full bg-primary text-white py-3 rounded-xl font-black uppercase tracking-widest text-sm hover:bg-primary/90 transition shadow-premium hover:shadow-premium-hover active:scale-[0.98]"
                         >
-                            Envoyer le lien de réinitialisation
+                            Envoyer le lien
                         </button>
 
                         <p
@@ -220,14 +220,14 @@ const AuthModal = ({ open, setOpen }) => {
                                         Adresse email
                                     </label>
 
-                                    <div className="relative">
-                                        <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
+                                    <div className="relative group">
+                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors" size={20} />
 
                                         <input
                                             type="email"
                                             value={loginEmail}
                                             onChange={(e) => setLoginEmail(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                            className="w-full pl-12 pr-4 py-3 bg-gray-50/50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary focus:bg-white transition-all duration-300"
                                             placeholder="votre@email.com"
                                             required
                                         />
@@ -239,14 +239,14 @@ const AuthModal = ({ open, setOpen }) => {
                                         Mot de passe
                                     </label>
 
-                                    <div className="relative">
-                                        <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
+                                    <div className="relative group">
+                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors" size={20} />
 
                                         <input
                                             type="password"
                                             value={loginPassword}
                                             onChange={(e) => setLoginPassword(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                            className="w-full pl-12 pr-4 py-3 bg-gray-50/50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary focus:bg-white transition-all duration-300"
                                             placeholder="••••••••"
                                             required
                                         />
@@ -276,7 +276,7 @@ const AuthModal = ({ open, setOpen }) => {
 
                                 <button
                                     type="submit"
-                                    className="w-full bg-black text-white py-2 rounded-lg font-semibold hover:bg-gray-800 transition"
+                                    className="w-full bg-primary text-white py-4 rounded-2xl font-black uppercase tracking-widest text-sm hover:shadow-premium transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
                                 >
                                     Se connecter
                                 </button>
@@ -314,7 +314,7 @@ const AuthModal = ({ open, setOpen }) => {
                                             type="text"
                                             value={registerLastName}
                                             onChange={(e) => setRegisterLastName(e.target.value)}
-                                            className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                            className="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all"
                                             placeholder="Dupont"
                                             required
                                         />
@@ -369,9 +369,9 @@ const AuthModal = ({ open, setOpen }) => {
 
                                 <button
                                     type="submit"
-                                    className="w-full bg-black text-white py-2 rounded-lg font-semibold hover:bg-gray-800 transition"
+                                    className="w-full btn-premium text-white py-4"
                                 >
-                                    Créer un compte
+                                    Créer mon compte
                                 </button>
 
                             </form>
