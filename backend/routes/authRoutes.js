@@ -15,6 +15,8 @@ import {
   updateAddress,
   getWishlist,
   toggleWishlist,
+  forgotPassword,
+  resetPassword,
 } from '../controllers/authController.js';
 
 const router = express.Router();
@@ -22,6 +24,8 @@ const router = express.Router();
 // Public routes
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+router.post('/forgotpassword', forgotPassword);
+router.put('/resetpassword/:token', resetPassword);
 
 // Protected routes
 router.get('/me', authenticate, getCurrentUser);

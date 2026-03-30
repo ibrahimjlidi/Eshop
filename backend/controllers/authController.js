@@ -6,6 +6,8 @@
 import User from '../models/User.js';
 import { generateToken } from '../utils/jwt.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
+import crypto from 'crypto';
+import sendEmail from '../utils/emailService.js';
 
 // Register User
 export const registerUser = asyncHandler(async (req, res) => {
@@ -220,5 +222,76 @@ export const getWishlist = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     wishlist: user.wishlist,
+  });
+});
+
+// Forgot Password
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    throw new AppError('Aucun utilisateur trouvé avec cette adresse email', 404);
+  }
+
+  // Get reset token
+  const resetToken = user.getResetPasswordToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  // Create reset url
+  const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+
+  const message = `Vous recevez cet email car vous avez demandé la réinitialisation de votre mot de passe. Veuillez cliquer sur ce lien pour le réinitialiser :\n\n ${resetUrl}`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Réinitialisation du mot de passe',
+      message,
+    });
+
+    res.status(200).json({ success: true, message: 'Email de réinitialisation envoyé' });
+  } catch (err) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save({ validateBeforeSave: false });
+
+    throw new AppError("Erreur lors de l'envoi de l'email", 500);
+  }
+});
+
+// Reset Password
+export const resetPassword = asyncHandler(async (req, res) => {
+  // Get hashed token
+  const resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    throw new AppError('Jeton invalide ou expiré', 400);
+  }
+
+  // Set new password
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+  await user.save();
+
+  // Send new JWT token
+  const token = generateToken(user._id);
+  user.password = undefined;
+
+  res.status(200).json({
+    success: true,
+    message: 'Mot de passe mis à jour avec succès',
+    token,
+    user
   });
 });

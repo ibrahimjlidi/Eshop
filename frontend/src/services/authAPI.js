@@ -64,4 +64,16 @@ export const authAPI = {
     const response = await apiClient.get('/auth/wishlist');
     return response.data;
   },
+
+  // Forgot Password
+  forgotPassword: async (email) => {
+    const response = await apiClient.post('/auth/forgotpassword', { email });
+    return response.data;
+  },
+
+  // Reset Password
+  resetPassword: async (token, password) => {
+    const response = await apiClient.put(`/auth/resetpassword/${token}`, { password });
+    return response.data;
+  },
 };

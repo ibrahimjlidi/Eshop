@@ -16,6 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
 import HomePage from './pages/HomePage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 //import LoginPage from './pages/LoginPage';
 //import RegisterPage from './pages/RegisterPage';
 import ProductsPage from './pages/ProductsPage';
@@ -42,6 +43,7 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="/products" element={<ProductsPage />} />
 
           <Route path="/cart" element={<CartPage />} />
