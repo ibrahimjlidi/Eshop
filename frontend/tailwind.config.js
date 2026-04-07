@@ -8,12 +8,12 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: '#a78bfa', // Violet 400
-          DEFAULT: '#8b5cf6', // Violet 500
-          dark: '#7e22ce', // Purple 700
+          light: '#7dd3fc', // Sky 300
+          DEFAULT: '#27B4F5', // Brand blue
+          dark: '#0284c7',   // Sky 600
         },
-        secondary: '#f97316', // Orange 500
-        accent: '#fbbf24', // Amber/Orange blend
+        secondary: '#8b5cf6', // Violet 500
+        accent: '#fbbf24',    // Amber
         surface: '#f8fafc',
         dark: '#0f172a',
       },

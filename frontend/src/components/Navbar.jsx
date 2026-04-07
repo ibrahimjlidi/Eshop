@@ -3,11 +3,14 @@
  * Main navigation bar with search, cart, and user menu
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ShoppingCart, Search, Menu, X, LogOut, ArrowRight } from 'lucide-react';
 import { logout } from '../features/authSlice';
+import { fetchSettings } from '../features/settingsSlice';
+import AuthModal from '../components/AuthModal';
+import PromoBanner from '../components/PromoBanner';
 
 const megaMenuData = {
   'NOUVEAUTÉS': {
@@ -46,8 +49,6 @@ const megaMenuData = {
   'ACCESSOIRES': null
 };
 
-import AuthModal from '../components/AuthModal';
-
 const Navbar = () => {
 
   const navigate = useNavigate();
@@ -59,6 +60,11 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [openAuth, setOpenAuth] = useState(false);
+
+  // Fetch settings on mount
+  useEffect(() => {
+    dispatch(fetchSettings());
+  }, [dispatch]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -75,9 +81,11 @@ const Navbar = () => {
 
   return (
     <>
+      <PromoBanner />
+
       <nav className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-soft border-b border-gray-100/50">
 
-        {/* Top Navigation */}
+        {/* Top Section — White: Logo + Search + User + Cart */}
         <div className="border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -85,10 +93,10 @@ const Navbar = () => {
 
               {/* Logo */}
               <Link to="/" className="flex items-center space-x-2 font-bold text-2xl">
-                <div className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white" style={{ backgroundColor: '#27B4F5' }}>
                   E
                 </div>
-                <span>Shop</span>
+                <span className="text-dark">Shop</span>
               </Link>
 
               {/* Search */}
@@ -98,9 +106,10 @@ const Navbar = () => {
                   placeholder="Je cherche..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-5 py-2.5 bg-gray-50 text-dark border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-secondary/10 focus:border-secondary/30 transition-all duration-300"
+                  className="w-full px-5 py-2.5 bg-gray-50 text-dark border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:border-[#27B4F5]/30 transition-all duration-300"
+                  style={{ '--tw-ring-color': '#27B4F520' }}
                 />
-                <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-secondary group-focus-within:text-secondary transition-colors">
+                <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#27B4F5] transition-colors">
                   <Search size={20} />
                 </button>
               </form>
@@ -109,43 +118,23 @@ const Navbar = () => {
               <div className="hidden md:flex items-center space-x-6">
 
                 {isAuthenticated ? (
-
                   <div className="flex items-center space-x-4">
-                    <span className="text-sm font-medium text-gray-700">
-                      {user?.firstName}
-                    </span>
-
-                    <button
-                      onClick={handleLogout}
-                      className="text-gray-500 hover:text-red-500 transition"
-                    >
+                    <span className="text-sm font-medium text-gray-700">{user?.firstName}</span>
+                    <button onClick={handleLogout} className="text-gray-500 hover:text-red-500 transition">
                       <LogOut size={20} />
                     </button>
                   </div>
-
                 ) : (
-
-                  <button
-                    onClick={() => setOpenAuth(true)}
-                    className="text-gray-700 hover:text-primary transition"
-                  >
+                  <button onClick={() => setOpenAuth(true)} className="text-gray-700 hover:text-[#27B4F5] transition">
                     <span className="text-sm">Connexion</span>
                   </button>
-
                 )}
 
                 {/* Cart */}
-                <Link
-                  to="/cart"
-                  className="relative group p-2 rounded-full hover:bg-gray-50 transition"
-                >
-                  <ShoppingCart
-                    className="text-gray-600 group-hover:text-primary"
-                    size={24}
-                  />
-
+                <Link to="/cart" className="relative group p-2 rounded-full hover:bg-gray-50 transition">
+                  <ShoppingCart className="text-gray-600 group-hover:text-[#27B4F5]" size={24} />
                   {totalItems > 0 && (
-                    <span className="absolute top-0 right-0 bg-primary text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                    <span className="absolute top-0 right-0 text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center font-bold" style={{ backgroundColor: '#27B4F5' }}>
                       {totalItems}
                     </span>
                   )}
@@ -158,11 +147,8 @@ const Navbar = () => {
 
               </div>
 
-              {/* Mobile Menu */}
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="md:hidden text-gray-900 p-2"
-              >
+              {/* Mobile Menu Button */}
+              <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-gray-900 p-2">
                 {menuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
 
@@ -170,28 +156,26 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Categories */}
-        <div className="bg-white/50 backdrop-blur-sm border-b border-gray-100 hidden md:block">
+        {/* Categories Bar — #27B4F5 blue */}
+        <div className="hidden md:block" style={{ backgroundColor: '#27B4F5' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div className="flex items-center space-x-10 py-4">
 
               {Object.keys(megaMenuData).map((cat) => (
-
                 <div key={cat} className="group/nav relative py-4">
                   <Link
                     to="/products"
-                    className="relative text-[13px] text-gray-600 font-bold tracking-widest hover:text-primary transition uppercase whitespace-nowrap z-10 block"
+                    className="relative text-[13px] text-white font-bold tracking-widest hover:text-white/80 transition uppercase whitespace-nowrap z-10 block"
                   >
                     {cat}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover/nav:w-full"></span>
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all group-hover/nav:w-full"></span>
                   </Link>
 
                   {/* Mega Menu Dropdown */}
                   {megaMenuData[cat] && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 w-[650px] bg-white rounded-2xl shadow-premium opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-300 transform translate-y-4 group-hover/nav:translate-y-0 z-50 overflow-hidden border border-gray-100/50 backdrop-blur-xl">
                       <div className="grid grid-cols-3 p-6 gap-6">
-                        {/* Links Columns */}
                         <div className="col-span-2 grid grid-cols-2 gap-4">
                           {megaMenuData[cat].columns.map((col, idx) => (
                             <div key={idx}>
@@ -199,8 +183,8 @@ const Navbar = () => {
                               <ul className="space-y-3">
                                 {col.links.map((link, i) => (
                                   <li key={i}>
-                                    <Link to="/products" className="text-gray-500 hover:text-primary transition text-sm font-medium flex items-center group/link">
-                                      <span className="w-0 h-[1px] bg-primary mr-0 transition-all group-hover/link:w-2 group-hover/link:mr-2 inline-block"></span>
+                                    <Link to="/products" className="text-gray-500 hover:text-[#27B4F5] transition text-sm font-medium flex items-center group/link">
+                                      <span className="w-0 h-[1px] bg-[#27B4F5] mr-0 transition-all group-hover/link:w-2 group-hover/link:mr-2 inline-block"></span>
                                       {link}
                                     </Link>
                                   </li>
@@ -215,10 +199,10 @@ const Navbar = () => {
                           <img src={megaMenuData[cat].image} alt={cat} className="absolute inset-0 w-full h-full object-cover group-hover/img:scale-110 transition duration-700" />
                           <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent"></div>
                           <div className="absolute bottom-4 left-4 right-4">
-                            <span className="inline-block bg-secondary text-white text-[10px] font-black uppercase px-2 py-1 rounded mb-2 shadow-soft">
+                            <span className="inline-block text-white text-[10px] font-black uppercase px-2 py-1 rounded mb-2 shadow-soft" style={{ backgroundColor: '#27B4F5' }}>
                               {megaMenuData[cat].tag}
                             </span>
-                            <div className="text-white font-bold text-sm uppercase tracking-wider flex items-center group-hover/img:text-primary-light transition-colors">
+                            <div className="text-white font-bold text-sm uppercase tracking-wider flex items-center group-hover/img:text-[#27B4F5] transition-colors">
                               Découvrir <ArrowRight size={14} className="ml-1 transform group-hover/img:translate-x-1 transition-transform" />
                             </div>
                           </div>
@@ -227,14 +211,10 @@ const Navbar = () => {
                     </div>
                   )}
                 </div>
-
               ))}
 
               {isAuthenticated && user?.role === 'admin' && (
-                <Link
-                  to="/admin/dashboard"
-                  className="text-[13px] text-primary font-bold tracking-widest uppercase border-l-2 pl-10 border-gray-200"
-                >
+                <Link to="/admin/dashboard" className="text-[13px] text-white font-bold tracking-widest uppercase border-l-2 pl-10 border-white/40">
                   ADMIN PANEL
                 </Link>
               )}
@@ -247,18 +227,8 @@ const Navbar = () => {
         {menuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200">
 
-            {/* Categories */}
             <div className="flex flex-col divide-y divide-gray-100">
-
-              {[
-                'NOUVEAUTÉS',
-                'TOP VENTES',
-                'SNEAKERS',
-                'VÊTEMENTS',
-                'MARQUES',
-                'ACCESSOIRES'
-              ].map((cat) => (
-
+              {['NOUVEAUTÉS', 'TOP VENTES', 'SNEAKERS', 'VÊTEMENTS', 'MARQUES', 'ACCESSOIRES'].map((cat) => (
                 <Link
                   key={cat}
                   to="/products"
@@ -267,37 +237,23 @@ const Navbar = () => {
                 >
                   {cat}
                 </Link>
-
               ))}
-
             </div>
 
-            {/* User Section */}
             <div className="border-t border-gray-200 p-4">
-
               {isAuthenticated ? (
-
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left text-sm font-semibold text-red-500 hover:text-red-600"
-                >
+                <button onClick={handleLogout} className="w-full text-left text-sm font-semibold text-red-500 hover:text-red-600">
                   Déconnexion
                 </button>
-
               ) : (
-
                 <button
-                  onClick={() => {
-                    setOpenAuth(true);
-                    setMenuOpen(false);
-                  }}
-                  className="w-full text-left text-sm font-semibold text-primary"
+                  onClick={() => { setOpenAuth(true); setMenuOpen(false); }}
+                  className="w-full text-left text-sm font-semibold"
+                  style={{ color: '#27B4F5' }}
                 >
                   Connexion
                 </button>
-
               )}
-
             </div>
 
           </div>

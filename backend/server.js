@@ -54,8 +54,24 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // Serve Static Files
 app.use('/uploads', express.static('public/uploads'));
 
-// Connect to database
-connectDB();
+// Connect to database and initialize defaults
+const initServer = async () => {
+  await connectDB();
+
+  // Ensure default settings exist in DB on startup
+  try {
+    const { default: Settings } = await import('./models/Settings.js');
+    const existing = await Settings.findOne();
+    if (!existing) {
+      await Settings.create({});
+      console.log('✓ Default settings initialized');
+    }
+  } catch (err) {
+    console.error('Settings init error:', err.message);
+  }
+};
+
+initServer();
 
 // Configure Cloudinary
 configureCloudinary();

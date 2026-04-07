@@ -23,8 +23,15 @@ export const updateSettings = asyncHandler(async (req, res) => {
     if (!settings) {
         settings = new Settings(req.body);
     } else {
-        // Merge updates
-        Object.assign(settings, req.body);
+        // Deep merge nested objects (banner, shopInfo) instead of shallow Object.assign
+        if (req.body.banner) {
+            settings.banner = { ...settings.banner.toObject?.() ?? settings.banner, ...req.body.banner };
+        }
+        if (req.body.shopInfo) {
+            settings.shopInfo = { ...settings.shopInfo.toObject?.() ?? settings.shopInfo, ...req.body.shopInfo };
+        }
+        settings.markModified('banner');
+        settings.markModified('shopInfo');
     }
 
     try {
