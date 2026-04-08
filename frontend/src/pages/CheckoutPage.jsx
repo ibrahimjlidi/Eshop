@@ -23,6 +23,7 @@ const CheckoutPage = () => {
     });
 
     const [shippingMethod, setShippingMethod] = useState('standard');
+    const [paymentMethod, setPaymentMethod] = useState('stripe');
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -56,12 +57,20 @@ const CheckoutPage = () => {
                     quantity: item.quantity
                 })),
                 shippingAddress,
-                shippingMethod
+                shippingMethod,
+                paymentMethod
             };
 
             const orderRes = await orderAPI.createOrder(orderPayload);
 
             if (orderRes.success) {
+                if (paymentMethod === 'cod') {
+                    toast.success("Commande effectuée avec succès !");
+                    navigate('/products');
+                    setIsProcessing(false);
+                    return;
+                }
+
                 // Initiate Stripe session
                 const checkoutRes = await orderAPI.createCheckoutSession(orderRes.order._id);
 
@@ -244,6 +253,48 @@ const CheckoutPage = () => {
                                 </label>
                             </div>
                         </div>
+
+                        {/* Payment Method */}
+                        <div className="glass-card rounded-3xl p-10 shadow-premium animate-fade-in-up animate-stagger-2">
+                            <h2 className="text-2xl font-black mb-8 flex items-center space-x-4 text-dark tracking-tight">
+                                <span className="bg-primary text-white w-10 h-10 flex items-center justify-center rounded-2xl shadow-premium text-sm font-black">3</span>
+                                <span>Mode de Paiement</span>
+                            </h2>
+
+                            <div className="space-y-4">
+                                <label className={`block border rounded-lg p-4 cursor-pointer transition ${paymentMethod === 'stripe' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                                    <div className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="paymentMethod"
+                                            value="stripe"
+                                            checked={paymentMethod === 'stripe'}
+                                            onChange={(e) => setPaymentMethod(e.target.value)}
+                                            className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                                        />
+                                        <div className="ml-3">
+                                            <span className="block text-sm font-medium text-gray-900">Carte Bancaire (Stripe)</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label className={`block border rounded-lg p-4 cursor-pointer transition ${paymentMethod === 'cod' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                                    <div className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="paymentMethod"
+                                            value="cod"
+                                            checked={paymentMethod === 'cod'}
+                                            onChange={(e) => setPaymentMethod(e.target.value)}
+                                            className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                                        />
+                                        <div className="ml-3">
+                                            <span className="block text-sm font-medium text-gray-900">Paiement à la Livraison</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Order Summary */}
@@ -303,8 +354,8 @@ const CheckoutPage = () => {
                                     <span className="animate-pulse">Traitement en cours...</span>
                                 ) : (
                                     <>
-                                        <CreditCard size={22} />
-                                        <span>Payer avec Stripe</span>
+                                        {paymentMethod === 'stripe' && <CreditCard size={22} />}
+                                        <span>{paymentMethod === 'stripe' ? 'Payer avec Stripe' : 'Confirmer la commande'}</span>
                                     </>
                                 )}
                             </button>

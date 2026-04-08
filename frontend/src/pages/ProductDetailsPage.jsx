@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Star, Minus, Plus, ShoppingCart, ArrowLeft, Check } from 'lucide-react';
+import { Star, Minus, Plus, ShoppingCart, ArrowLeft, Check, X } from 'lucide-react';
 import MainLayout from '../layouts/MainLayout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { productAPI } from '../services/productAPI';
@@ -20,6 +20,8 @@ const ProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [addingToCart, setAddingToCart] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -107,13 +109,36 @@ const ProductDetailsPage = () => {
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Product Image */}
-          <div className="glass-card rounded-3xl overflow-hidden p-8 flex justify-center items-center h-[600px] shadow-premium animate-fade-in-up">
-            <img
-              src={product.images && product.images.length > 0 ? product.images[0].url : 'https://via.placeholder.com/500'}
-              alt={product.name}
-              className="max-h-full object-contain hover:scale-105 transition-transform duration-700"
-            />
+          {/* Product Image Gallery */}
+          <div className="flex gap-4 h-[600px] animate-fade-in-up">
+            {/* Thumbnails (Left side) */}
+            <div className="w-24 shrink-0 flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2 pb-2">
+              {(product.images && product.images.length > 0 ? product.images : [{ url: 'https://via.placeholder.com/500' }]).map((img, idx) => (
+                <div 
+                  key={idx} 
+                  onClick={() => setActiveImageIndex(idx)}
+                  className={`cursor-pointer rounded-xl overflow-hidden border-2 transition-all shrink-0 ${activeImageIndex === idx ? 'border-primary shadow-md' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                >
+                  <img src={img.url} alt={`${product.name} - ${idx}`} className="w-full aspect-square object-cover" />
+                </div>
+              ))}
+            </div>
+
+            {/* Main Image */}
+            <div className="flex-1 glass-card rounded-3xl overflow-hidden relative shadow-premium flex justify-center items-center group bg-white">
+              <img
+                src={product.images && product.images.length > 0 ? product.images[activeImageIndex].url : 'https://via.placeholder.com/500'}
+                alt={product.name}
+                className="max-h-full max-w-full object-contain hover:scale-[1.02] transition-transform duration-500 cursor-zoom-in p-4"
+                onClick={() => setIsLightboxOpen(true)}
+              />
+              <button 
+                onClick={() => setIsLightboxOpen(true)}
+                className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm text-gray-800 px-5 py-2.5 rounded-full font-bold text-sm shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-2 hover:bg-primary hover:text-white transform hover:-translate-y-1"
+              >
+                <Plus size={16} /> Agrandir
+              </button>
+            </div>
           </div>
 
           {/* Product Details */}
@@ -212,6 +237,41 @@ const ProductDetailsPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {isLightboxOpen && (
+        <div className="fixed inset-0 z-[100] bg-white/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10 animate-fade-in">
+          <button 
+            onClick={() => setIsLightboxOpen(false)}
+            className="absolute top-6 right-6 text-gray-600 hover:text-black w-12 h-12 flex items-center justify-center bg-gray-100 hover:bg-gray-200 shadow-md rounded-full transition-all duration-300 z-10"
+          >
+            <X size={24} />
+          </button>
+          
+          <div className="w-full h-full flex flex-col justify-center items-center relative">
+             <img 
+               src={product.images && product.images.length > 0 ? product.images[activeImageIndex].url : 'https://via.placeholder.com/500'} 
+               alt={product.name}
+               className="max-h-[80vh] max-w-full object-contain shadow-2xl rounded-xl"
+             />
+             
+             {/* Lightbox Navigation */}
+             {product.images && product.images.length > 1 && (
+               <div className="flex gap-4 mt-8 overflow-x-auto max-w-2xl py-3 px-6 bg-white border border-gray-100 shadow-lg rounded-full">
+                 {product.images.map((img, idx) => (
+                   <button
+                     key={idx}
+                     onClick={(e) => { e.stopPropagation(); setActiveImageIndex(idx); }}
+                     className={`w-14 h-14 rounded-full overflow-hidden border-2 shrink-0 transition-transform hover:scale-110 ${activeImageIndex === idx ? 'border-primary shadow-md' : 'border-transparent'}`}
+                   >
+                     <img src={img.url} className="w-full h-full object-cover" />
+                   </button>
+                 ))}
+               </div>
+             )}
+          </div>
+        </div>
+      )}
     </MainLayout>
   );
 };

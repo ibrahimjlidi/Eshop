@@ -93,7 +93,7 @@ export const createProduct = asyncHandler(async (req, res) => {
   // Handle image uploads
   let imageUrls = [];
   if (req.files && req.files.length > 0) {
-    const isCloudinaryConfigured = !!(process.env.CLOUDINARY_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+    const isCloudinaryConfigured = !!(process.env.CLOUDINARY_NAME && process.env.CLOUDINARY_NAME !== 'your_cloudinary_name' && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_KEY !== 'your_cloudinary_api_key');
 
     if (isCloudinaryConfigured) {
       const uploadPromises = req.files.map(file => uploadToCloudinary(file.buffer));
@@ -141,7 +141,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
 
   // Handle image uploads if new ones are provided
   if (req.files && req.files.length > 0) {
-    const isCloudinaryConfigured = !!(process.env.CLOUDINARY_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+    const isCloudinaryConfigured = !!(process.env.CLOUDINARY_NAME && process.env.CLOUDINARY_NAME !== 'your_cloudinary_name' && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_KEY !== 'your_cloudinary_api_key');
 
     if (isCloudinaryConfigured) {
       // Optional: Delete old images from Cloudinary here if desired

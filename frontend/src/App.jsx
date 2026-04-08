@@ -28,6 +28,7 @@ import AdminProductsPage from './pages/AdminProductsPage';
 import AdminOrdersPage from './pages/AdminOrdersPage';
 import AdminUsersPage from './pages/AdminUsersPage';
 import AdminSettingsPage from './pages/AdminSettingsPage';
+import AdminBrandsPage from './pages/AdminBrandsPage';
 import AboutPage from './pages/static/AboutPage';
 import ContactPage from './pages/static/ContactPage';
 import FaqPage from './pages/static/FaqPage';
@@ -97,6 +98,14 @@ function App() {
             element={
               <ProtectedRoute requireAdmin>
                 <AdminSettingsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/brands"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminBrandsPage />
               </ProtectedRoute>
             }
           />

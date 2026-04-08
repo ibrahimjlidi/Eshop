@@ -12,7 +12,7 @@ import sendEmail from '../utils/emailService.js';
 
 // Create Order
 export const createOrder = asyncHandler(async (req, res) => {
-  const { items, shippingAddress, shippingMethod = 'standard' } = req.body;
+  const { items, shippingAddress, shippingMethod = 'standard', paymentMethod = 'stripe' } = req.body;
 
   if (!items || items.length === 0) {
     throw new AppError('Order must contain at least one item', 400);
@@ -54,7 +54,6 @@ export const createOrder = asyncHandler(async (req, res) => {
   const tax = Math.round(subtotal * 0.1 * 100) / 100; // 10% tax
   const totalPrice = subtotal + shippingCost + tax;
 
-  // Create order
   const order = await Order.create({
     items: orderItems,
     userId: req.user.id,
@@ -64,6 +63,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     tax,
     totalPrice,
     shippingMethod,
+    paymentMethod,
   });
 
   // Update product stock

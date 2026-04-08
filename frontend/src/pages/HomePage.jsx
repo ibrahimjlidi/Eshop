@@ -10,6 +10,7 @@ import { ArrowRight, Zap, Truck, Shield, Clock } from 'lucide-react';
 import MainLayout from '../layouts/MainLayout';
 import ProductCard from '../components/ProductCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import BrandCarousel from '../components/BrandCarousel';
 import { productAPI } from '../services/productAPI';
 import { setLoading, getFeaturedSuccess } from '../features/productSlice';
 import { fetchSettings } from '../features/settingsSlice';
@@ -36,17 +37,6 @@ const HomePage = () => {
 
   return (
     <MainLayout>
-      {/* Promotional Banner */}
-      {settings?.banner?.isVisible && (
-        <div className={`${settings.banner.backgroundColor} ${settings.banner.textColor} text-center py-3 px-4 text-sm md:text-base font-semibold`}>
-          <div className="flex items-center justify-center gap-4 flex-wrap">
-            {settings.banner.messages.map((msg, idx) => (
-              <span key={idx}>{msg}</span>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Hero Section with Featured Collections */}
       <section className="relative h-96 md:h-96 overflow-hidden bg-black">
         <div className="grid grid-cols-2 h-full gap-0">
@@ -85,6 +75,9 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Brands Carousel Section */}
+      <BrandCarousel />
 
       {/* Featured Products Section */}
       <section className="max-w-7xl mx-auto section-spacing">

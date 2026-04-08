@@ -92,11 +92,8 @@ const Navbar = () => {
             <div className="flex justify-between items-center h-20">
 
               {/* Logo */}
-              <Link to="/" className="flex items-center space-x-2 font-bold text-2xl">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white" style={{ backgroundColor: '#27B4F5' }}>
-                  E
-                </div>
-                <span className="text-dark">Shop</span>
+              <Link to="/" className="flex items-center space-x-2 font-bold text-xl md:text-2xl whitespace-nowrap h-20 overflow-hidden">
+                <img src="/logo.png" alt="Lasaad Store Logo" className="h-24 md:h-28 w-auto object-contain transform scale-110 origin-center mix-blend-multiply" />
               </Link>
 
               {/* Search */}

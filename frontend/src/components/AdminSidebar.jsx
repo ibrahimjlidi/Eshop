@@ -14,6 +14,7 @@ import {
   LogOut,
   Menu,
   X,
+  Tag,
 } from 'lucide-react';
 
 const AdminSidebar = ({ isOpen, setIsOpen }) => {
@@ -22,6 +23,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
   const menuItems = [
     { label: 'Tableau de Bord', href: '/admin/dashboard', icon: BarChart3 },
     { label: 'Produits', href: '/admin/products', icon: Package },
+    { label: 'Marques', href: '/admin/brands', icon: Tag },
     { label: 'Commandes', href: '/admin/orders', icon: ShoppingCart },
     { label: 'Utilisateurs', href: '/admin/users', icon: Users },
     { label: 'Paramètres', href: '/admin/settings', icon: Settings },
@@ -46,7 +48,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
       >
         <div className="p-8 border-b border-white/5">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-black tracking-tighter">EShop <span className="text-primary text-xs ml-1 uppercase font-bold tracking-widest">Admin</span></h2>
+            <h2 className="text-2xl font-black tracking-tighter">لسعد Store <span className="text-primary text-xs ml-1 uppercase font-bold tracking-widest">Admin</span></h2>
             <button
               onClick={() => setIsOpen(false)}
               className="md:hidden text-gray-400 hover:text-white"
