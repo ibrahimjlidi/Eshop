@@ -30,6 +30,7 @@ export default {
         'fade-in': 'fadeIn 0.5s ease-out forwards',
         'float': 'float 3s ease-in-out infinite',
         'bounce-slow': 'bounce 3s infinite',
+        'scroll': 'scroll 30s linear infinite',
       },
       keyframes: {
         fadeInUp: {
@@ -43,6 +44,10 @@ export default {
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
         },
       },
     },
