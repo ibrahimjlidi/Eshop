@@ -29,7 +29,9 @@ dotenv.config();
 const app = express();
 
 // Security & Performance Middleware
-app.use(helmet()); // Security headers
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
 app.use(compression()); // Gzip compression
 
 // Middleware
